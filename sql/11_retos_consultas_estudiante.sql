@@ -1,0 +1,27 @@
+-- RETAIL 360 | 11 | RETOS SQL SIN RESOLVER: desarrollar antes de solicitar soluciones con IA.
+-- PRERREQUISITOS: 01-05, 07 y 10. NO crea ni modifica datos.
+-- Producto: consultas SQL, interpretación y evidencias de contraste.
+-- C01 Venta neta por mes (fecha de evento), incorporando notas crédito.
+-- TODO: SELECT ... FROM dwh.fact_venta JOIN dwh.dim_fecha ...;
+-- C02 Top 10 clientes por venta neta y margen bruto; explicar qué excluye margen bruto.
+-- TODO:
+-- C03 Comparar metas y ventas por vendedor / sucursal / mes SIN duplicar metas.
+-- TODO:
+-- C04 Existencias por producto y bodega al corte (no sumar saldos de varias fechas).
+-- TODO:
+-- C05 Productos con devoluciones / unidades vendidas; definir denominador.
+-- TODO:
+-- C06 Facturas vencidas y saldo a corte desde dwh.vw_cartera_corte.
+-- TODO:
+-- C07 Vendedores con cumplimiento >= 100% pero margen bruto porcentual bajo.
+-- TODO:
+-- C08 Pedidos PENDIENTE_STOCK: cruzar local y existencia central al corte del pedido.
+-- TODO: advertir que fecha sin hora limita el orden intradia.
+-- C09 Categorías con mayores descuentos efectivos.
+-- TODO:
+-- C10 Analizar flujo de facturación y recaudo; NO restar flujos mensuales para inferir cartera.
+-- TODO:
+-- C11 BONUS: identificar concentracion de ventas por cliente (Pareto).
+-- TODO:
+-- C12 BONUS: comprobar con SQL una visualizacion errada de metas por categoría.
+-- TODO:

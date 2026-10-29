@@ -1,0 +1,25 @@
+-- RETAIL 360 | 02 | Carga de CSV sintéticos reproducibles.
+-- Solo usar en BD retail360: TRUNCATE REINICIA las tablas del ejercicio.
+-- Ejecutar desde la carpeta raíz del paquete: psql -X -v ON_ERROR_STOP=1 -d retail360 -f sql/02_cargar_datos.psql
+\set ON_ERROR_STOP on
+BEGIN;
+TRUNCATE TABLE oltp.movimiento_inventario,oltp.pago,oltp.nota_credito_detalle,oltp.nota_credito,
+ oltp.factura_detalle,oltp.factura,oltp.pedido_detalle,oltp.pedido,oltp.meta_mensual,
+ oltp.producto,oltp.categoria,oltp.cliente,oltp.vendedor,oltp.bodega,oltp.sucursal RESTART IDENTITY CASCADE;
+\copy oltp.sucursal FROM 'data/sucursal.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.bodega FROM 'data/bodega.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.vendedor FROM 'data/vendedor.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.cliente FROM 'data/cliente.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.categoria FROM 'data/categoria.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.producto FROM 'data/producto.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.meta_mensual FROM 'data/meta_mensual.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.pedido FROM 'data/pedido.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.pedido_detalle FROM 'data/pedido_detalle.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.factura FROM 'data/factura.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.factura_detalle FROM 'data/factura_detalle.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.nota_credito FROM 'data/nota_credito.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.nota_credito_detalle FROM 'data/nota_credito_detalle.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.pago FROM 'data/pago.csv' WITH (FORMAT csv, HEADER true)
+\copy oltp.movimiento_inventario FROM 'data/movimiento_inventario.csv' WITH (FORMAT csv, HEADER true)
+COMMIT;
+\echo 'CARGA OLTP FINALIZADA. Ejecute sql/03_verificar_oltp.sql.'

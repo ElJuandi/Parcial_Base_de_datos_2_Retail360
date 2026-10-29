@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+
+# Archivos temporales de Office y Power BI
+~$*
+*.tmp
+.~lock.*
+
+# Editores y sistema
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Credenciales: nunca subir contraseñas
+.env
+*.pgpass

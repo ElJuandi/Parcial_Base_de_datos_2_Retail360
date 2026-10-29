@@ -1,0 +1,1 @@
+Este directorio recibirá los cuatro CSV exportados mediante sql/08_exportar_analitica.psql.

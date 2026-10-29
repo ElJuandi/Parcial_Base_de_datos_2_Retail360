@@ -1,0 +1,16 @@
+vendedor_id,sucursal_id,nombre,fecha_ingreso
+1,1,Adriana Ríos,2024-01-15
+2,1,Beatriz Soto,2024-01-15
+3,1,Camilo López,2024-01-15
+4,1,Daniela Ríos,2024-01-15
+5,1,Eliana Soto,2024-01-15
+6,2,Felipe López,2024-01-15
+7,2,Gabriela Ríos,2024-01-15
+8,2,Hernán Soto,2024-01-15
+9,2,Isabel López,2024-01-15
+10,2,Jorge Ríos,2024-01-15
+11,3,Karen Soto,2024-01-15
+12,3,Leonardo López,2024-01-15
+13,3,Mariana Ríos,2024-01-15
+14,3,Nicolás Soto,2024-01-15
+15,3,Olga López,2024-01-15

@@ -1,0 +1,5 @@
+bodega_id,sucursal_id,nombre,tipo
+1,,Bodega central,CENTRAL
+2,1,Bodega Manizales,LOCAL
+3,2,Bodega Pereira,LOCAL
+4,3,Bodega Medellín,LOCAL

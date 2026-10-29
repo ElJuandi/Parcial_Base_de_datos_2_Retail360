@@ -1,2 +1,14 @@
-# Auto detect text files and perform LF normalization
+# Normalización automática de finales de línea para archivos de texto
 * text=auto
+
+# Datos del docente y exportaciones: se conservan byte a byte (finales CRLF originales)
+# para poder verificarlos con SHA-256 en el gate R0.
+data/*.csv   -text
+export/*.csv -text
+
+# Binarios
+*.docx binary
+*.pdf  binary
+*.pbix binary
+*.png  binary
+*.jpg  binary

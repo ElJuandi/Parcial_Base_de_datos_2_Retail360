@@ -1,0 +1,8 @@
+-- RETAIL 360 | 08 | Exportaciones en UTF-8. Requiere carpeta export/ previamente creada.
+-- Ejecutar desde raiz: psql -X -v ON_ERROR_STOP=1 -d retail360 -f sql/08_exportar_analitica.psql
+\set ON_ERROR_STOP on
+\copy (SELECT * FROM dwh.vw_ventas_mensuales ORDER BY periodo_yyyymm,sucursal_id,vendedor_id,categoria) TO 'export/ventas_mensuales.csv' WITH (FORMAT csv,HEADER true,ENCODING 'UTF8')
+\copy (SELECT * FROM dwh.vw_metas_mensuales ORDER BY periodo_yyyymm,sucursal_id,vendedor_id) TO 'export/metas_mensuales.csv' WITH (FORMAT csv,HEADER true,ENCODING 'UTF8')
+\copy (SELECT * FROM dwh.vw_recaudos_mensuales ORDER BY periodo_yyyymm,sucursal_id,cliente_key) TO 'export/recaudos_mensuales.csv' WITH (FORMAT csv,HEADER true,ENCODING 'UTF8')
+\copy (SELECT * FROM dwh.vw_stock_corte ORDER BY bodega_id,producto_id) TO 'export/stock_corte.csv' WITH (FORMAT csv,HEADER true,ENCODING 'UTF8')
+\echo 'Exportes completados: revisar carpeta export/ y tamanos de archivo.'

@@ -1,0 +1,13 @@
+Ejecución del validador sobre CSV suministrados.
+
+Verificacion CSV Retail360
+pedidos                   12,000
+facturas                  10,019
+lineas_factura            30,224
+notas_credito                526
+movimientos_inventario    40,628
+metas                        360
+Ventas brutas con impuesto, sin NC: 92469859147.19
+Notas credito con impuesto: 762361604.51
+Recaudos: 54081947963.55
+Validaciones: OK
