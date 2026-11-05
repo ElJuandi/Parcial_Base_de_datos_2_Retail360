@@ -1,0 +1,43 @@
+﻿Retail 360 - R5 indicadores - 2026-11-04 20:28:22 - equipo PAVAPC
+
+===== entregables_estudiante\04_KPI\casos_prueba_kpi.sql =====
+CREATE TABLE
+INSERT 0 4
+CREATE TABLE
+INSERT 0 4
+CREATE TABLE
+INSERT 0 4
+CREATE TABLE
+INSERT 0 2
+CREATE TABLE
+INSERT 0 2
+psql:entregables_estudiante/04_KPI/casos_prueba_kpi.sql:117: NOTICE:  Trampa margen: promedio de porcentajes = 27.92 % (correcto: 25.49 %)
+psql:entregables_estudiante/04_KPI/casos_prueba_kpi.sql:117: NOTICE:  Trampa devolución: sobre unidades netas = 16.67 % (correcto: 14.29 %)
+psql:entregables_estudiante/04_KPI/casos_prueba_kpi.sql:117: NOTICE:  Trampa meta: pegada a cada línea = 6500 (correcto: 5500)
+psql:entregables_estudiante/04_KPI/casos_prueba_kpi.sql:117: NOTICE:  Trampa inventario: sumar fotos de dos meses = 17 unidades (correcto: 5)
+psql:entregables_estudiante/04_KPI/casos_prueba_kpi.sql:117: NOTICE:  CASOS DE PRUEBA OK: los 15 indicadores dan lo calculado a mano
+DO
+
+===== entregables_estudiante\04_KPI\kpi_referencia.sql =====
+ num |                     kpi                     | escenario_a_todo | escenario_b_pereira_sep2026 
+-----+---------------------------------------------+------------------+-----------------------------
+   1 | K01 Ventas netas (COP sin IVA)              |   77065123983.86 |                946766660.41
+   2 | K02 Unidades netas                          |            90095 |                        1128
+   3 | K03 Descuento efectivo %                    |             5.99 |                        6.64
+   4 | K04 Tasa de devolución % (unidades)         |             0.81 |                        1.31
+   5 | K05 Margen bruto (COP)                      |   24544503983.86 |                289928660.41
+   6 | K06 Margen bruto %                          |            31.85 |                       30.62
+   7 | K07 Meta de ventas (COP)                    |  103770000000.00 |               1360000000.00
+   8 | K08 Cumplimiento de meta %                  |            74.27 |                       69.62
+   9 | K09 Meses-vendedor con meta cumplida %      |            20.28 |                       40.00
+  10 | K10 Existencias al corte (unidades)         |           122341 |                       23598
+  11 | K11 Productos agotados en sucursales        |                7 |                           2
+  12 | K12 Recaudo (COP con IVA)                   |   54081947963.55 |                695338048.03
+  13 | K13 Saldo de cartera al corte (COP con IVA) |   37625549579.13 |              12226333944.19
+  14 | K14 Cartera vencida %                       |            97.57 |                       97.50
+  15 | K15 Facturación con IVA (COP)               |   91707497542.68 |               1126652325.93
+(15 filas)
+
+
+RESULTADO: OK - todos los scripts corrieron sin errores.
+Salida guardada en: C:\Users\migue\Documents\GitHub\Parcial_Base_de_datos_2_Retail360\entregables_estudiante\04_KPI\salidas\salida_r5.txt

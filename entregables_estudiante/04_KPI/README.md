@@ -36,3 +36,24 @@ Lo corrimos el 4 de noviembre de 2026 en el computador de Miguel, sin errores.
   y 1.600 de existencias.
 - Cada archivo cuadra con el modelo: venta neta 77.065.123.983,86, meta 103.770.000.000,00,
   recaudo 54.081.947.963,55 y 122.341 unidades al corte.
+
+## R5 - Indicadores
+
+### Archivos
+
+- `catalogo_kpi.md` - los 15 indicadores: fórmula, unidad, fecha, filtros, devoluciones, la
+  matriz indicador-hecho-filtro, lo que no vamos a mostrar y los valores oficiales.
+- `kpi_referencia.sql` - calcula en SQL el valor oficial de cada indicador en dos escenarios
+  (A: todo; B: Pereira en septiembre de 2026). Contra esto se comparan Power BI y la página web.
+- `casos_prueba_kpi.md` y `casos_prueba_kpi.sql` - un ejemplo pequeño calculado a mano y la
+  prueba de que las fórmulas dan lo mismo, más las formas equivocadas.
+- `wireframes.md` y la carpeta `wireframes/` - los bocetos de las 4 páginas y por qué elegimos
+  cada gráfica.
+- `acuerdo_kpi.md` - donde cada integrante aprueba el catálogo.
+- `ejecutar_r5.bat` - corre las pruebas y los valores oficiales con doble clic.
+- `salidas/salida_r5.txt` - lo que salió al correrlo.
+
+### Cuándo damos R5 por terminada
+
+- Los casos de prueba dan `CASOS DE PRUEBA OK`.
+- Los 5 integrantes aprueban el catálogo en `acuerdo_kpi.md`. Hasta entonces no se abre Power BI.
