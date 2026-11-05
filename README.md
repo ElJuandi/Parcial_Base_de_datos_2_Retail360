@@ -33,9 +33,9 @@ Trabajamos por etapas (gates). No pasamos a la siguiente hasta terminar bien la 
 
 | Etapa | Qué es | Estado |
 |---|---|---|
-| R0 | Preparar el equipo y revisar que todo funcione | En curso |
-| R1 | Base de datos de la operación (OLTP) | Pendiente |
-| R2 | Modelo para análisis (estrella) | Pendiente |
+| R0 | Preparar el equipo y revisar que todo funcione | Listo |
+| R1 | Base de datos de la operación (OLTP) | Listo |
+| R2 | Modelo para análisis (estrella) | Siguiente |
 | R3 | Pasar los datos de un modelo al otro (ETL) | Pendiente |
 | R4 | Consultas SQL y archivos para el tablero | Pendiente |
 | R5 | Indicadores (KPI) | Pendiente |

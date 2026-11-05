@@ -1,0 +1,136 @@
+﻿Retail 360 - R1 OLTP - 2026-11-04 19:25:50 - equipo PAVAPC
+
+===== sql\01_esquema_oltp.sql =====
+CREATE SCHEMA
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+
+===== sql\02_cargar_datos.psql =====
+BEGIN
+TRUNCATE TABLE
+COPY 3
+COPY 4
+COPY 15
+COPY 1500
+COPY 12
+COPY 400
+COPY 360
+COPY 12000
+COPY 36992
+COPY 10019
+COPY 30224
+COPY 526
+COPY 526
+COPY 7854
+COPY 40628
+COMMIT
+CARGA OLTP FINALIZADA. Ejecute sql/03_verificar_oltp.sql.
+
+===== sql\03_verificar_oltp.sql =====
+    entidad     | registros 
+----------------+-----------
+ productos      |       400
+ sucursales     |         3
+ clientes       |      1500
+ pagos          |      7854
+ pedidos        |     12000
+ facturas       |     10019
+ lineas_factura |     30224
+ movimientos    |     40628
+(8 filas)
+
+ facturas_sin_pedido_facturado 
+-------------------------------
+                             0
+(1 fila)
+
+ detalle_factura_inconsistente 
+-------------------------------
+                             0
+(1 fila)
+
+ notas_con_cantidad_excedida 
+-----------------------------
+                           0
+(1 fila)
+
+ saldos_finales_negativos 
+--------------------------
+                        0
+(1 fila)
+
+
+===== entregables_estudiante\01_OLTP\consultas_r1.sql =====
+         tabla         | filas | esperado | estado 
+-----------------------+-------+----------+--------
+ sucursal              |     3 |        3 | OK
+ bodega                |     4 |        4 | OK
+ vendedor              |    15 |       15 | OK
+ cliente               |  1500 |     1500 | OK
+ categoria             |    12 |       12 | OK
+ producto              |   400 |      400 | OK
+ meta_mensual          |   360 |      360 | OK
+ pedido                | 12000 |    12000 | OK
+ pedido_detalle        | 36992 |    36992 | OK
+ factura               | 10019 |    10019 | OK
+ factura_detalle       | 30224 |    30224 | OK
+ nota_credito          |   526 |      526 | OK
+ nota_credito_detalle  |   526 |      526 | OK
+ pago                  |  7854 |     7854 | OK
+ movimiento_inventario | 40628 |    40628 | OK
+(15 filas)
+
+   estado_pedido   | pedidos 
+-------------------+---------
+ FACTURADO         |   10019
+ PENDIENTE_CREDITO |     862
+ PENDIENTE_STOCK   |     839
+ CANCELADO         |     280
+(4 filas)
+
+ facturas | facturas_con_pago | facturas_sin_pago | pagadas_en_parte | pagadas_completas 
+----------+-------------------+-------------------+------------------+-------------------
+    10019 |              7854 |              2165 |             4670 |              3184
+(1 fila)
+
+      bodega      |  tipo   | unidades_en_bodega 
+------------------+---------+--------------------
+ Bodega central   | CENTRAL |              46526
+ Bodega Manizales | LOCAL   |              26282
+ Bodega Medellín  | LOCAL   |              25935
+ Bodega Pereira   | LOCAL   |              23598
+ TOTAL EMPRESA    |         |             122341
+(5 filas)
+
+       tipo        | movimientos | unidades 
+-------------------+-------------+----------
+ TRASLADO_ENTRADA  |        1658 |     5672
+ TRASLADO_SALIDA   |        1658 |    -5672
+ SUMA DE TRASLADOS |        3316 |        0
+(3 filas)
+
+ lineas_factura | lineas_con_descuento | porcentaje_con_descuento | descuento_maximo_pct 
+----------------+----------------------+--------------------------+----------------------
+          30224 |                25291 |                     83.7 |              35.0000
+(1 fila)
+
+
+RESULTADO: OK - todos los scripts corrieron sin errores.
+Salida guardada en: C:\Users\migue\Documents\GitHub\Parcial_Base_de_datos_2_Retail360\entregables_estudiante\01_OLTP\salidas\salida_r1.txt
