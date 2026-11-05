@@ -1,0 +1,169 @@
+﻿Retail 360 - R3 ETL - 2026-11-04 19:59:55 - equipo PAVAPC
+
+===== entregables_estudiante\03_ETL\etl_retail360.sql =====
+CREATE SCHEMA
+CREATE FUNCTION
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE PROCEDURE
+COMMENT
+
+===== sql\05b_ejecutar_etl.sql =====
+psql:sql/05b_ejecutar_etl.sql:5: NOTICE:  Carga 1 OK | venta +30750 ~0 | inventario +40628 ~0 | meta +360 ~0 | recaudo +7854 ~0
+CALL
+ corrida_id |          iniciado          |         finalizado         | estado | filas_fact_venta | filas_fact_inv | filas_fact_meta | filas_fact_recaudo 
+------------+----------------------------+----------------------------+--------+------------------+----------------+-----------------+--------------------
+          1 | 2026-11-04 20:00:02.200286 | 2026-11-04 20:00:04.371786 | OK     |            30750 |          40628 |             360 |               7854
+(1 fila)
+
+
+===== sql\06_validar_dwh.sql =====
+   control    |  dwh  | oltp  
+--------------+-------+-------
+ venta_lineas | 30750 | 30750
+(1 fila)
+
+        control         |  dwh  | oltp  
+------------------------+-------+-------
+ inventario_movimientos | 40628 | 40628
+(1 fila)
+
+ control | dwh | oltp 
+---------+-----+------
+ metas   | 360 |  360
+(1 fila)
+
+ control  | dwh  | oltp 
+----------+------+------
+ recaudos | 7854 | 7854
+(1 fila)
+
+ venta_neta_oltp | venta_neta_dwh | diferencia 
+-----------------+----------------+------------
+  77065123983.86 | 77065123983.86 |       0.00
+(1 fila)
+
+ metas_duplicadas 
+------------------
+                0
+(1 fila)
+
+ corrida_id |          iniciado          |         finalizado         | estado | filas_fact_venta | filas_fact_inv | filas_fact_meta | filas_fact_recaudo |                                                                                                             mensaje                                                                                                              
+------------+----------------------------+----------------------------+--------+------------------+----------------+-----------------+--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+          1 | 2026-11-04 20:00:02.200286 | 2026-11-04 20:00:04.371786 | OK     |            30750 |          40628 |             360 |               7854 | OK. Dimensiones: fecha +1096 ~0 | sucursal +3 ~0 | bodega +4 ~0 | cliente +1500 ~0 | vendedor +15 ~0 | producto +400 ~0. Hechos: venta +30750 ~0 | inventario +40628 ~0 | meta +360 ~0 | recaudo +7854 ~0. Cuadra con el origen.
+(1 fila)
+
+
+===== sql\09_pruebas_aceptacion.sql =====
+psql:sql/09_pruebas_aceptacion.sql:81: NOTICE:  ACEPTACION OK | hechos venta=30750 inventario=40628 metas=360 recaudos=7854 | neto=77065123983.86
+DO
+
+===== sql\12_prueba_idempotencia.sql =====
+BEGIN
+SELECT 1
+psql:sql/12_prueba_idempotencia.sql:14: NOTICE:  Carga 2 OK | venta +0 ~0 | inventario +0 ~0 | meta +0 ~0 | recaudo +0 ~0
+CALL
+psql:sql/12_prueba_idempotencia.sql:15: NOTICE:  Carga 3 OK | venta +0 ~0 | inventario +0 ~0 | meta +0 ~0 | recaudo +0 ~0
+CALL
+psql:sql/12_prueba_idempotencia.sql:30: NOTICE:  PRUEBA IDEMPOTENCIA OK: conteos e importes preservados en dos reejecuciones
+DO
+COMMIT
+
+===== sql\13_ensayo_actualizacion_controlada.sql =====
+BEGIN
+ etapa | meta_id |  monto_meta  
+-------+---------+--------------
+ ANTES |       1 | 300000000.00
+(1 fila)
+
+UPDATE 1
+CALL
+psql:sql/13_ensayo_actualizacion_controlada.sql:7: NOTICE:  Carga 4 OK | venta +0 ~0 | inventario +0 ~0 | meta +0 ~1 | recaudo +0 ~0
+  etapa  | meta_id |  monto_dwh   |  monto_oltp  
+---------+---------+--------------+--------------
+ DURANTE |       1 | 330000000.00 | 330000000.00
+(1 fila)
+
+ROLLBACK
+      etapa       | meta_id |  monto_dwh   |  monto_oltp  
+------------------+---------+--------------+--------------
+ DESPUES_ROLLBACK |       1 | 300000000.00 | 300000000.00
+(1 fila)
+
+
+===== entregables_estudiante\03_ETL\consultas_r3.sql =====
+ corrida_id | estado | filas_fact_venta | filas_fact_inv | filas_fact_meta | filas_fact_recaudo |                                                                                                             mensaje                                                                                                              
+------------+--------+------------------+----------------+-----------------+--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+          1 | OK     |            30750 |          40628 |             360 |               7854 | OK. Dimensiones: fecha +1096 ~0 | sucursal +3 ~0 | bodega +4 ~0 | cliente +1500 ~0 | vendedor +15 ~0 | producto +400 ~0. Hechos: venta +30750 ~0 | inventario +40628 ~0 | meta +360 ~0 | recaudo +7854 ~0. Cuadra con el origen.
+          2 | OK     |            30750 |          40628 |             360 |               7854 | OK. Dimensiones: fecha +0 ~0 | sucursal +0 ~0 | bodega +0 ~0 | cliente +0 ~0 | vendedor +0 ~0 | producto +0 ~0. Hechos: venta +0 ~0 | inventario +0 ~0 | meta +0 ~0 | recaudo +0 ~0. Cuadra con el origen.
+          3 | OK     |            30750 |          40628 |             360 |               7854 | OK. Dimensiones: fecha +0 ~0 | sucursal +0 ~0 | bodega +0 ~0 | cliente +0 ~0 | vendedor +0 ~0 | producto +0 ~0. Hechos: venta +0 ~0 | inventario +0 ~0 | meta +0 ~0 | recaudo +0 ~0. Cuadra con el origen.
+(3 filas)
+
+                       control                       | filas | detiene 
+-----------------------------------------------------+-------+---------
+ Factura de un pedido que no está FACTURADO          |     0 | t
+ Línea de factura distinta a su línea de pedido      |     0 | t
+ Nota crédito que devuelve una línea de otra factura |     0 | t
+ Línea devuelta más veces de lo que se vendió        |     0 | t
+ Nota crédito con fecha antes de su factura          |     0 | t
+ Pago con fecha antes de su factura                  |     0 | t
+ Factura con más pagos que su valor total            |     0 | t
+ Facturas ANULADAS (no se cargan)                    |     0 | f
+(8 filas)
+
+              control              |     origen      |     modelo      | diferencia 
+-----------------------------------+-----------------+-----------------+------------
+ Filas de venta (facturas + notas) |           30750 |           30750 |          0
+ Venta neta (sin IVA)              |  77065123983.86 |  77065123983.86 |       0.00
+ Costo de venta                    |  52520620000.00 |  52520620000.00 |       0.00
+ Movimientos de inventario         |           40628 |           40628 |          0
+ Unidades en inventario (saldo)    |          122341 |          122341 |          0
+ Metas                             |             360 |             360 |          0
+ Valor de las metas                | 103770000000.00 | 103770000000.00 |       0.00
+ Pagos                             |            7854 |            7854 |          0
+ Valor recaudado                   |  54081947963.55 |  54081947963.55 |       0.00
+(9 filas)
+
+ tipo_evento  | filas | unidades |   venta_neta   |  margen_bruto  
+--------------+-------+----------+----------------+----------------
+ FACTURA      | 30224 |    90834 | 77705763987.69 | 24749395987.69
+ NOTA_CREDITO |   526 |     -739 |  -640640003.83 |  -204892003.83
+              | 30750 |    90095 | 77065123983.86 | 24544503983.86
+(3 filas)
+
+ tipo_evento  | factura_id |   fecha    | unidades | venta_neta  
+--------------+------------+------------+----------+-------------
+ FACTURA      |          1 | 2024-10-01 |        5 |  7640935.10
+ NOTA_CREDITO |          1 | 2024-11-09 |       -1 | -1528187.02
+(2 filas)
+
+ fecha_sin_nombres | sucursal_sin_region | bodega_local_sin_sucursal | vendedor_incompleto | cliente_sin_plazo | producto_sin_precios 
+-------------------+---------------------+---------------------------+---------------------+-------------------+----------------------
+                 0 |                   0 |                         0 |                   0 |                 0 |                    0
+(1 fila)
+
+ sucursal_id |       nombre       |  ciudad   |    region    
+-------------+--------------------+-----------+--------------
+           1 | Sucursal Manizales | Manizales | Eje Cafetero
+           2 | Sucursal Pereira   | Pereira   | Eje Cafetero
+           3 | Sucursal Medellín  | Medellín  | Antioquia
+(3 filas)
+
+psql:entregables_estudiante/03_ETL/consultas_r3.sql:57: NOTICE:  PRUEBA NEGATIVA 1 OK (origen con error): Carga detenida, el origen tiene problemas -> Pago con fecha antes de su factura: 1
+DO
+psql:entregables_estudiante/03_ETL/consultas_r3.sql:76: NOTICE:  PRUEBA NEGATIVA 2 OK (modelo descuadrado): Carga deshecha, el modelo no cuadra con el origen -> Filas de venta (facturas + notas) (origen 30750, modelo 30751); Venta neta (sin IVA) (origen 77065123983.86, modelo 77074002310.20); Costo de venta (origen 52520620000.00, modelo 52525620000.00)
+DO
+ fact_venta | fact_inventario | fact_meta | fact_recaudo |   venta_neta   | pagos_mal_fechados 
+------------+-----------------+-----------+--------------+----------------+--------------------
+      30750 |           40628 |       360 |         7854 | 77065123983.86 |                  0
+(1 fila)
+
+
+RESULTADO: OK - todos los scripts corrieron sin errores.
+Salida guardada en: C:\Users\migue\Documents\GitHub\Parcial_Base_de_datos_2_Retail360\entregables_estudiante\03_ETL\salidas\salida_r3.txt
