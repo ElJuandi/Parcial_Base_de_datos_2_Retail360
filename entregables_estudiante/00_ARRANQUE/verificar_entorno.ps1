@@ -9,6 +9,7 @@
    5. Se conecta a PostgreSQL, crea la base retail360 si no existe (sql/00_crear_base.sql)
       y confirma la conexion a retail360.
    6. Registra la version de Power BI Desktop.
+   7. Registra el remoto y el ultimo commit del repositorio.
    Todo queda en: entregables_estudiante\00_ARRANQUE\evidencia_entorno.txt
 
  Ejecucion (desde la RAIZ del repositorio, en PowerShell):
@@ -89,7 +90,17 @@ foreach ($opcion in @("py -3.12", "py", "python")) {
         }
     }
 }
-if (-not $py) { Fallo "No se encontro Python 3 (py -3.12, py o python)." }
+if (-not $py) {
+    # Instalaciones que no quedaron en el PATH (por ejemplo C:\Python314)
+    $rutas = @("C:\Python3*\python.exe", (Join-Path $env:LOCALAPPDATA "Programs\Python\Python3*\python.exe"))
+    $candidato = Get-ChildItem $rutas -ErrorAction SilentlyContinue | Sort-Object FullName -Descending | Select-Object -First 1
+    if ($candidato) {
+        $py = $candidato.FullName
+        $pyArgs = @()
+        Log ("Python usado: " + $py + " -> " + ((& $py --version 2>&1 | Out-String).Trim()))
+    }
+}
+if (-not $py) { Fallo "No se encontro Python 3 (py, python o C:\Python3x)." }
 
 # --------------------------------------------------------------------------
 Paso "3" "Validar CSV del docente (validar_csv.py)"
@@ -171,10 +182,23 @@ if ($pbi) {
 }
 
 # --------------------------------------------------------------------------
+Paso "7" "Repositorio Git"
+$git = Get-Command git -ErrorAction SilentlyContinue
+$gitExe = $null
+if ($git) { $gitExe = $git.Source } elseif (Test-Path "C:\Program Files\Git\cmd\git.exe") { $gitExe = "C:\Program Files\Git\cmd\git.exe" }
+if ($gitExe) {
+    Log ("Remoto: " + ((& $gitExe -C $raiz remote get-url origin 2>&1 | Out-String).Trim()))
+    Log ("Rama: " + ((& $gitExe -C $raiz rev-parse --abbrev-ref HEAD 2>&1 | Out-String).Trim()))
+    Log ("Ultimo commit: " + ((& $gitExe -C $raiz log -1 --format="%h %s (%an, %ad)" --date=short 2>&1 | Out-String).Trim()))
+} else {
+    Log "Git no esta en el PATH (no es obligatorio: se usa GitHub Desktop)."
+}
+
+# --------------------------------------------------------------------------
 Log ""
 if ($script:fallos -eq 0) {
-    Log "RESULTADO R0 (parte tecnica): OK - entorno verificado."
+    Log "RESULTADO R0: OK - el computador esta listo para trabajar."
 } else {
-    Log ("RESULTADO R0 (parte tecnica): " + $script:fallos + " fallo(s). Revise los mensajes FALLO.")
+    Log ("RESULTADO R0: " + $script:fallos + " fallo(s). Revise los mensajes FALLO.")
 }
 Log ("Evidencia guardada en: " + $evidencia)

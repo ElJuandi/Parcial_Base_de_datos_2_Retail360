@@ -1,0 +1,62 @@
+﻿RETAIL 360 - Evidencia de entorno (gate R0)
+Fecha: 2026-11-04 19:13:52
+Equipo: PAVAPC | Usuario Windows: migue
+Carpeta del repositorio: C:\Users\migue\Documents\GitHub\Parcial_Base_de_datos_2_Retail360
+Windows: Microsoft Windows NT 10.0.26300.0
+PowerShell: 5.1.26100.9818
+
+=== PASO 1 | Ubicar psql
+psql encontrado en: C:\Program Files\PostgreSQL\18\bin\psql.exe
+Version cliente: psql (PostgreSQL) 18.6
+
+=== PASO 2 | Ubicar Python
+Python usado: py -> Python 3.14.7
+
+=== PASO 3 | Validar CSV del docente (validar_csv.py)
+Verificacion CSV Retail360
+pedidos                   12,000
+facturas                  10,019
+lineas_factura            30,224
+notas_credito                526
+movimientos_inventario    40,628
+metas                        360
+Ventas brutas con impuesto, sin NC: 92469859147.19
+Notas credito con impuesto: 762361604.51
+Recaudos: 54081947963.55
+Validaciones: OK
+
+=== PASO 4 | Integridad del paquete (SHA-256)
+  OK         data/bodega.csv
+  OK         data/categoria.csv
+  OK         data/cliente.csv
+  OK         data/factura.csv
+  OK         data/factura_detalle.csv
+  OK         data/meta_mensual.csv
+  OK         data/movimiento_inventario.csv
+  OK         data/nota_credito.csv
+  OK         data/nota_credito_detalle.csv
+  OK         data/pago.csv
+  OK         data/pedido.csv
+  OK         data/pedido_detalle.csv
+  OK         data/producto.csv
+  OK         data/sucursal.csv
+  OK         data/vendedor.csv
+  OK         documentacion/Guia_Laboratorio_Retail360.docx
+Archivos verificados: 16 | con diferencias: 0
+
+=== PASO 5 | PostgreSQL: conexion y base retail360
+Servidor: PostgreSQL 18.6 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit
+La base retail360 no existe: se ejecuta sql/00_crear_base.sql
+CREATE DATABASE
+Conexion a retail360: retail360 | usuario postgres | version 18.6 | codificacion UTF8
+
+=== PASO 6 | Power BI Desktop
+Power BI Desktop (Microsoft Store) version: 2.159.1231.0
+
+=== PASO 7 | Repositorio Git
+Remoto: https://github.com/ElJuandi/Parcial_Base_de_datos_2_Retail360.git
+Rama: main
+Ultimo commit: e52eb13 Update hola.txt (Deivid, 2026-10-29)
+
+RESULTADO R0: OK - el computador esta listo para trabajar.
+Evidencia guardada en: C:\Users\migue\Documents\GitHub\Parcial_Base_de_datos_2_Retail360\entregables_estudiante\00_ARRANQUE\evidencia_entorno.txt
