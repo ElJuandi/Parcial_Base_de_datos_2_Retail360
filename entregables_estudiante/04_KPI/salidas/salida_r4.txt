@@ -1,0 +1,301 @@
+﻿Retail 360 - R4 consultas - 2026-11-04 20:13:20 - equipo PAVAPC
+
+===== sql\07_vistas_analiticas.sql =====
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+
+===== sql\10_cartera_corte.sql =====
+CREATE VIEW
+ facturas_corte |  saldo_total   | vencida_total  | saldo_minimo 
+----------------+----------------+----------------+--------------
+          10019 | 37625549579.13 | 36712224932.73 |         0.00
+(1 fila)
+
+ sucursal_id |     saldo      |    vencida     
+-------------+----------------+----------------
+           1 | 12591428349.71 | 12284571589.88
+           2 | 12226333944.19 | 11921157347.12
+           3 | 12807787285.23 | 12506495995.73
+(3 filas)
+
+
+===== sql\08_exportar_analitica.psql =====
+COPY 4316
+COPY 360
+COPY 7583
+COPY 1600
+Exportes completados: revisar carpeta export/ y tamanos de archivo.
+
+===== entregables_estudiante\04_KPI\retos_r4.sql =====
+ anio_mes | venta_facturas | notas_credito |  venta_neta   | variacion_pct 
+----------+----------------+---------------+---------------+---------------
+ 2024-10  |  3213434576.46 |   -7788183.59 | 3205646392.87 |              
+ 2024-11  |  3090468643.28 |  -19677308.04 | 3070791335.24 |          -4.2
+ 2024-12  |  3006607245.17 |  -27083179.30 | 2979524065.87 |          -3.0
+ 2025-01  |  3120426138.07 |  -20896490.49 | 3099529647.58 |           4.0
+ 2025-02  |  2899908882.63 |  -22435767.79 | 2877473114.84 |          -7.2
+ 2025-03  |  3453956521.76 |  -25148351.69 | 3428808170.07 |          19.2
+ 2025-04  |  3046795178.29 |  -19208290.39 | 3027586887.90 |         -11.7
+ 2025-05  |  3076507621.34 |  -20964404.40 | 3055543216.94 |           0.9
+ 2025-06  |  3104052199.35 |  -17595468.58 | 3086456730.77 |           1.0
+ 2025-07  |  3072941334.59 |  -30328925.69 | 3042612408.90 |          -1.4
+ 2025-08  |  3267842344.10 |  -24329891.18 | 3243512452.92 |           6.6
+ 2025-09  |  3740772486.74 |  -23086464.96 | 3717686021.78 |          14.6
+ 2025-10  |  3758359003.17 |  -21303434.54 | 3737055568.63 |           0.5
+ 2025-11  |  3234696275.03 |  -41495141.90 | 3193201133.13 |         -14.6
+ 2025-12  |  3397254803.67 |  -28674662.31 | 3368580141.36 |           5.5
+ 2026-01  |  3005117442.85 |  -30772497.53 | 2974344945.32 |         -11.7
+ 2026-02  |  2892044126.77 |  -21428267.26 | 2870615859.51 |          -3.5
+ 2026-03  |  3552144343.65 |  -30739070.37 | 3521405273.28 |          22.7
+ 2026-04  |  3170822978.23 |  -29623513.47 | 3141199464.76 |         -10.8
+ 2026-05  |  3285585901.41 |  -35894958.67 | 3249690942.74 |           3.5
+ 2026-06  |  3184713787.25 |  -32163911.36 | 3152549875.89 |          -3.0
+ 2026-07  |  3507052722.01 |  -24146815.48 | 3482905906.53 |          10.5
+ 2026-08  |  3338110384.21 |  -32166525.68 | 3305943858.53 |          -5.1
+ 2026-09  |  3286149047.66 |  -53688479.16 | 3232460568.50 |          -2.2
+(24 filas)
+
+ puesto_venta | puesto_margen | cliente_id |         nombre         | segmento |  ciudad   |  venta_neta  | margen_bruto | margen_pct 
+--------------+---------------+------------+------------------------+----------+-----------+--------------+--------------+------------
+            1 |             1 |        615 | Cliente sintético 0615 | PERSONA  | Manizales | 145114926.44 |  49314926.44 |       34.0
+            2 |             2 |       1377 | Cliente sintético 1377 | PERSONA  | Manizales | 139680567.73 |  48818567.73 |       35.0
+            3 |             3 |       1290 | Cliente sintético 1290 | PERSONA  | Medellín  | 138407094.61 |  45571094.61 |       32.9
+            4 |             4 |        641 | Cliente sintético 0641 | PERSONA  | Pereira   | 136364134.84 |  44352134.84 |       32.5
+            5 |             5 |        121 | Cliente sintético 0121 | PERSONA  | Medellín  | 135343151.27 |  44041151.27 |       32.5
+            6 |             9 |        425 | Cliente sintético 0425 | PERSONA  | Manizales | 133300975.72 |  39752975.72 |       29.8
+            7 |             6 |        731 | Cliente sintético 0731 | PERSONA  | Medellín  | 132706661.65 |  43615661.65 |       32.9
+            8 |            11 |       1105 | Cliente sintético 1105 | PERSONA  | Pereira   | 124502660.88 |  39453660.88 |       31.7
+            9 |             8 |        858 | Cliente sintético 0858 | PERSONA  | Manizales | 122663806.92 |  40051806.92 |       32.7
+           10 |            10 |        648 | Cliente sintético 0648 | EMPRESA  | Pereira   | 121440040.52 |  39659040.52 |       32.7
+(10 filas)
+
+ filas |   meta_total    |  venta_total   | cumplimiento_pct | ventas_sin_meta | metas_sin_venta 
+-------+-----------------+----------------+------------------+-----------------+-----------------
+   360 | 103770000000.00 | 77065123983.86 |             74.3 |               0 |               0
+(1 fila)
+
+ vendedor_id |    vendedor    |      sucursal      |     meta      |  venta_neta   | cumplimiento_pct | meses_que_cumplio 
+-------------+----------------+--------------------+---------------+---------------+------------------+-------------------
+          15 | Olga López     | Sucursal Medellín  | 6380000000.00 | 5275209586.59 |             82.7 |                 8
+           6 | Felipe López   | Sucursal Pereira   | 6930000000.00 | 5623460362.21 |             81.1 |                 6
+           7 | Gabriela Ríos  | Sucursal Pereira   | 6580000000.00 | 5253606891.12 |             79.8 |                 6
+           8 | Hernán Soto    | Sucursal Pereira   | 6560000000.00 | 5153539978.17 |             78.6 |                 9
+           3 | Camilo López   | Sucursal Manizales | 7010000000.00 | 5461898557.73 |             77.9 |                 6
+           2 | Beatriz Soto   | Sucursal Manizales | 6800000000.00 | 5247066576.53 |             77.2 |                 6
+          12 | Leonardo López | Sucursal Medellín  | 7010000000.00 | 5348433188.89 |             76.3 |                 5
+          13 | Mariana Ríos   | Sucursal Medellín  | 6960000000.00 | 5090146968.26 |             73.1 |                 6
+          11 | Karen Soto     | Sucursal Medellín  | 6860000000.00 | 4993865398.80 |             72.8 |                 1
+           1 | Adriana Ríos   | Sucursal Manizales | 6930000000.00 | 4994610011.42 |             72.1 |                 6
+           4 | Daniela Ríos   | Sucursal Manizales | 7460000000.00 | 5246813932.31 |             70.3 |                 2
+          14 | Nicolás Soto   | Sucursal Medellín  | 7320000000.00 | 5147283737.95 |             70.3 |                 4
+           9 | Isabel López   | Sucursal Pereira   | 6900000000.00 | 4812766817.71 |             69.8 |                 3
+           5 | Eliana Soto    | Sucursal Manizales | 7040000000.00 | 4819523160.13 |             68.5 |                 2
+          10 | Jorge Ríos     | Sucursal Pereira   | 7030000000.00 | 4596898816.04 |             65.4 |                 3
+(15 filas)
+
+      bodega      | productos | unidades | productos_en_cero | productos_negativos 
+------------------+-----------+----------+-------------------+---------------------
+ Bodega central   |       400 |    46526 |                 0 |                   0
+ Bodega Manizales |       400 |    26282 |                 1 |                   0
+ Bodega Medellín  |       400 |    25935 |                 4 |                   0
+ Bodega Pereira   |       400 |    23598 |                 2 |                   0
+                  |      1600 |   122341 |                 7 |                   0
+(5 filas)
+
+      bodega      | producto_id |        producto        |  categoria  | existencia_a_corte 
+------------------+-------------+------------------------+-------------+--------------------
+ Bodega Manizales |         381 | Cámaras modelo 381     | Cámaras     |                  0
+ Bodega Medellín  |         254 | Monitores modelo 254   | Monitores   |                  0
+ Bodega Medellín  |         293 | Auriculares modelo 293 | Auriculares |                  0
+ Bodega Medellín  |         345 | Cámaras modelo 345     | Cámaras     |                  0
+ Bodega Medellín  |         384 | Componentes modelo 384 | Componentes |                  0
+ Bodega Pereira   |           9 | Cámaras modelo 009     | Cámaras     |                  0
+ Bodega Pereira   |          64 | Mouse modelo 064       | Mouse       |                  0
+ Bodega Pereira   |         269 | Auriculares modelo 269 | Auriculares |                  1
+ Bodega Manizales |          30 | Impresoras modelo 030  | Impresoras  |                  2
+ Bodega Manizales |         251 | Tabletas modelo 251    | Tabletas    |                  2
+(10 filas)
+
+         producto          |   categoria    | unidades_facturadas | unidades_devueltas | tasa_devolucion_pct 
+---------------------------+----------------+---------------------+--------------------+---------------------
+ TOTAL EMPRESA             |                |               90834 |                739 |                0.81
+ Mouse modelo 256          | Mouse          |                 120 |                  5 |                4.17
+ Monitores modelo 074      | Monitores      |                 161 |                  6 |                3.73
+ Mouse modelo 172          | Mouse          |                 115 |                  4 |                3.48
+ Accesorios modelo 082     | Accesorios     |                 145 |                  5 |                3.45
+ Componentes modelo 348    | Componentes    |                 146 |                  5 |                3.42
+ Redes modelo 236          | Redes          |                 165 |                  5 |                3.03
+ Tabletas modelo 155       | Tabletas       |                 134 |                  4 |                2.99
+ Mouse modelo 076          | Mouse          |                 170 |                  5 |                2.94
+ Almacenamiento modelo 259 | Almacenamiento |                 103 |                  3 |                2.91
+ Portátiles modelo 241     | Portátiles     |                 139 |                  4 |                2.88
+(11 filas)
+
+   categoria    | unidades_facturadas | unidades_devueltas | tasa_devolucion_pct 
+----------------+---------------------+--------------------+---------------------
+ Monitores      |                7733 |                 75 |                0.97
+ Auriculares    |                7448 |                 72 |                0.97
+ Portátiles     |                7788 |                 75 |                0.96
+ Mouse          |                7492 |                 71 |                0.95
+ Accesorios     |                7739 |                 68 |                0.88
+ Tabletas       |                7479 |                 64 |                0.86
+ Redes          |                7660 |                 65 |                0.85
+ Almacenamiento |                7773 |                 56 |                0.72
+ Cámaras        |                7833 |                 56 |                0.71
+ Teclados       |                7704 |                 55 |                0.71
+ Componentes    |                6663 |                 44 |                0.66
+ Impresoras     |                7522 |                 38 |                0.51
+(12 filas)
+
+ facturas_al_corte | facturas_con_saldo | facturas_vencidas | total_facturado | notas_credito |   recaudado    |     saldo      | cartera_vencida | vencida_pct_del_saldo 
+-------------------+--------------------+-------------------+-----------------+---------------+----------------+----------------+-----------------+-----------------------
+             10019 |               6651 |              6543 |  92469859147.19 |  762361604.51 | 54081947963.55 | 37625549579.13 |  36712224932.73 |                  97.6
+(1 fila)
+
+     antiguedad     | facturas |     saldo      | pct_del_saldo 
+--------------------+----------+----------------+---------------
+ 0. Aún no vence    |      108 |   913324646.40 |           2.4
+ 1. 1 a 30 días     |      297 |  1925092466.66 |           5.1
+ 2. 31 a 90 días    |      557 |  3197389050.47 |           8.5
+ 3. 91 a 180 días   |      830 |  4603446282.14 |          12.2
+ 4. Más de 180 días |     4859 | 26986297133.46 |          71.7
+(5 filas)
+
+ segmento | plazo_credito_dias | facturas |     saldo      | cartera_vencida 
+----------+--------------------+----------+----------------+-----------------
+ EMPRESA  |                 30 |     2459 |  9765664566.80 |   8919731379.86
+ PERSONA  |                  0 |     7560 | 27859885012.33 |  27792493552.87
+(2 filas)
+
+ vendedor_id |  vendedor   | periodo | cumplimiento_pct | margen_pct | margen_empresa_pct | descuento_pct 
+-------------+-------------+---------+------------------+------------+--------------------+---------------
+           5 | Eliana Soto |  202411 |            163.5 |       27.5 |               32.0 |          11.2
+           5 | Eliana Soto |  202508 |            110.6 |       27.7 |               31.8 |          11.2
+          10 | Jorge Ríos  |  202411 |            114.6 |       27.4 |               32.0 |          13.2
+          10 | Jorge Ríos  |  202510 |            133.6 |       27.9 |               32.0 |          12.2
+          10 | Jorge Ríos  |  202511 |            139.3 |       28.2 |               31.8 |          10.5
+(5 filas)
+
+ vendedor_id |    vendedor    | descuento_pct | margen_pct 
+-------------+----------------+---------------+------------
+           5 | Eliana Soto    |          12.5 |       26.8
+          10 | Jorge Ríos     |          12.1 |       27.4
+           8 | Hernán Soto    |           5.3 |       32.2
+           7 | Gabriela Ríos  |           5.2 |       32.4
+          12 | Leonardo López |           5.2 |       32.3
+           1 | Adriana Ríos   |           5.1 |       32.5
+           2 | Beatriz Soto   |           5.1 |       32.8
+          13 | Mariana Ríos   |           5.0 |       32.6
+           6 | Felipe López   |           5.0 |       32.2
+          11 | Karen Soto     |           5.0 |       32.7
+          15 | Olga López     |           5.0 |       32.3
+          14 | Nicolás Soto   |           5.0 |       32.5
+           4 | Daniela Ríos   |           4.9 |       32.8
+           9 | Isabel López   |           4.9 |       32.6
+           3 | Camilo López   |           4.8 |       32.8
+(15 filas)
+
+      sucursal      | pedidos | lineas | lineas_sin_stock_local | la_central_si_tenia | no_habia_en_ninguna | dudosas_por_mismo_dia 
+--------------------+---------+--------+------------------------+---------------------+---------------------+-----------------------
+ Sucursal Manizales |     277 |   1097 |                    254 |                 254 |                   0 |                    15
+ Sucursal Medellín  |     228 |    898 |                    194 |                 194 |                   0 |                     7
+ Sucursal Pereira   |     334 |   1341 |                    292 |                 292 |                   0 |                    12
+                    |     839 |   3336 |                    740 |                 740 |                   0 |                    34
+(4 filas)
+
+   categoria    |  valor_bruto  |  descuento   | descuento_efectivo_pct | margen_pct 
+----------------+---------------+--------------+------------------------+------------
+ Accesorios     | 7021169569.66 | 435031289.46 |                   6.20 |       33.9
+ Almacenamiento | 6946514238.57 | 430334849.10 |                   6.19 |       33.3
+ Redes          | 7326245912.29 | 451012267.55 |                   6.16 |       25.8
+ Monitores      | 7942410817.01 | 478714581.07 |                   6.03 |       32.9
+ Portátiles     | 7462294056.08 | 449024971.16 |                   6.02 |       30.1
+ Cámaras        | 7284441494.55 | 437405945.15 |                   6.00 |       32.1
+ Mouse          | 5705633267.75 | 340564187.30 |                   5.97 |       33.7
+ Auriculares    | 7506127872.66 | 446084039.35 |                   5.94 |       33.4
+ Tabletas       | 6269045275.11 | 372497185.84 |                   5.94 |       31.4
+ Impresoras     | 5933120951.36 | 351917767.63 |                   5.93 |       32.2
+ Teclados       | 6876378529.76 | 396651296.45 |                   5.77 |       32.7
+ Componentes    | 5699990510.90 | 319010131.78 |                   5.60 |       31.2
+(12 filas)
+
+ periodo |   facturado   |    notas    |   recaudado   | recaudo_sobre_facturado_pct 
+---------+---------------+-------------+---------------+-----------------------------
+  202410 | 3823987146.13 |  9267938.47 | 1759702329.07 |                        46.0
+  202411 | 3677657685.66 | 23415996.58 | 1909837596.11 |                        51.9
+  202412 | 3577862621.70 | 32228983.37 | 2376584514.94 |                        66.4
+  202501 | 3713307104.36 | 24866823.66 | 2154830213.70 |                        58.0
+  202502 | 3450891570.35 | 26698563.65 | 2056057151.77 |                        59.6
+  202503 | 4110208261.00 | 29926538.51 | 2407795860.44 |                        58.6
+  202504 | 3625686262.14 | 22857865.55 | 2369076437.40 |                        65.3
+  202505 | 3661044069.55 | 24947641.23 | 2182573134.78 |                        59.6
+  202506 | 3693822117.26 | 20938607.64 | 2154047535.50 |                        58.3
+  202507 | 3656800188.20 | 36091421.57 | 2095930844.00 |                        57.3
+  202508 | 3888732389.58 | 28952570.51 | 2231893493.77 |                        57.4
+  202509 | 4451519259.34 | 27472893.30 | 2312919074.73 |                        52.0
+  202510 | 4472447213.97 | 25351087.09 | 2551561459.38 |                        57.1
+  202511 | 3849288567.52 | 49379218.85 | 2609115125.52 |                        67.8
+  202512 | 4042733216.44 | 34122848.15 | 2260728048.29 |                        55.9
+  202601 | 3576089757.09 | 36619272.05 | 2249817973.76 |                        62.9
+  202602 | 3441532510.73 | 25499638.03 | 2064422309.38 |                        60.0
+  202603 | 4227051769.05 | 36579493.76 | 2581397654.06 |                        61.1
+  202604 | 3773279344.20 | 35251981.03 | 2235129110.87 |                        59.2
+  202605 | 3909847222.91 | 42715000.81 | 2284025631.24 |                        58.4
+  202606 | 3789809406.84 | 38275054.49 | 2254935473.19 |                        59.5
+  202607 | 4173392739.13 | 28734710.45 | 2303082532.03 |                        55.2
+  202608 | 3972351357.19 | 38278165.57 | 2401704779.57 |                        60.5
+  202609 | 3910517366.85 | 63889290.19 | 2274779680.05 |                        58.2
+(24 filas)
+
+ facturado_menos_recaudado | saldo_cartera_por_factura | vencida_solo_se_ve_por_factura 
+---------------------------+---------------------------+--------------------------------
+            37625549579.13 |            37625549579.13 |                 36712224932.73
+(1 fila)
+
+ clientes_con_compras | clientes_para_el_80_pct | pct_de_clientes | venta_del_20_pct_mayor 
+----------------------+-------------------------+-----------------+------------------------
+                 1498 |                     956 |            63.8 |                   33.3
+(1 fila)
+
+                forma                 | filas |    meta_total    
+--------------------------------------+-------+------------------
+ Así NO (meta repetida por categoría) |  4316 | 1244010000000.00
+ Así SÍ (meta en su propio nivel)     |   360 |  103770000000.00
+(2 filas)
+
+   categoria    | meta_que_mostraria_la_grafica |  venta_neta   
+----------------+-------------------------------+---------------
+ Accesorios     |               103770000000.00 | 6586138280.20
+ Almacenamiento |               103770000000.00 | 6516179389.47
+ Auriculares    |               103250000000.00 | 7060043833.31
+ Cámaras        |               103400000000.00 | 6847035549.40
+ Componentes    |               103770000000.00 | 5380980379.12
+ Impresoras     |               103770000000.00 | 5581203183.73
+ Monitores      |               103770000000.00 | 7463696235.94
+ Mouse          |               103430000000.00 | 5365069080.45
+ Portátiles     |               103770000000.00 | 7013269084.92
+ Redes          |               103770000000.00 | 6875233644.74
+ Tabletas       |               103770000000.00 | 5896548089.27
+ Teclados       |               103770000000.00 | 6479727233.31
+(12 filas)
+
+
+===== entregables_estudiante\04_KPI\validar_exportes.sql =====
+        archivo         | filas |  que_se_compara   | total_en_vista  | total_en_modelo 
+------------------------+-------+-------------------+-----------------+-----------------
+ ventas_mensuales.csv   |  4316 | venta neta        |  77065123983.86 |  77065123983.86
+ metas_mensuales.csv    |   360 | meta              | 103770000000.00 | 103770000000.00
+ recaudos_mensuales.csv |  7583 | recaudo           |  54081947963.55 |  54081947963.55
+ stock_corte.csv        |  1600 | unidades al corte |          122341 |          122341
+(4 filas)
+
+ unidades |  costo_venta   |  margen_bruto  |  descuentos   | neto_con_impuestos | desde  | hasta  
+----------+----------------+----------------+---------------+--------------------+--------+--------
+    90095 | 52520620000.00 | 24544503983.86 | 4908248511.84 |     91707497542.68 | 202410 | 202609
+(1 fila)
+
+
+RESULTADO: OK - todos los scripts corrieron sin errores.
+Salida guardada en: C:\Users\migue\Documents\GitHub\Parcial_Base_de_datos_2_Retail360\entregables_estudiante\04_KPI\salidas\salida_r4.txt

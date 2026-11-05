@@ -37,8 +37,8 @@ Trabajamos por etapas (gates). No pasamos a la siguiente hasta terminar bien la 
 | R1 | Base de datos de la operación (OLTP) | Listo |
 | R2 | Modelo para análisis (estrella) | Listo |
 | R3 | Pasar los datos de un modelo al otro (ETL) | Listo |
-| R4 | Consultas SQL y archivos para el tablero | Siguiente |
-| R5 | Indicadores (KPI) | Pendiente |
+| R4 | Consultas SQL y archivos para el tablero | Listo |
+| R5 | Indicadores (KPI) | Siguiente |
 | R6 | Tablero en Power BI | Pendiente |
 | R7 | Tablero web hecho con IA | Pendiente |
 | R8 | Hallazgos y decisiones | Pendiente |
