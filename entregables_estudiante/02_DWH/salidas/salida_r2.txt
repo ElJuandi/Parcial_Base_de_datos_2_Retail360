@@ -1,0 +1,90 @@
+﻿Retail 360 - R2 modelo de analisis - 2026-11-04 19:36:11 - equipo PAVAPC
+
+===== sql\04_esquema_dwh.sql =====
+CREATE SCHEMA
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+
+===== entregables_estudiante\02_DWH\ajustes_dwh_grupo.sql =====
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+
+===== entregables_estudiante\02_DWH\consultas_r2.sql =====
+           tabla            | columnas |                                                                                                      lista_columnas                                                                                                      
+----------------------------+----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ dim_bodega                 |        6 | bodega_key, bodega_id, nombre, tipo, sucursal_id, sucursal_key
+ dim_cliente                |        6 | cliente_key, cliente_id, nombre, segmento, ciudad, plazo_credito_dias
+ dim_fecha                  |       10 | fecha_key, fecha, anio, mes_num, mes_inicio, trimestre, anio_mes, dia, nombre_dia, nombre_mes
+ dim_producto               |        7 | producto_key, producto_id, nombre, categoria_id, categoria, costo_estandar, precio_lista
+ dim_sucursal               |        5 | sucursal_key, sucursal_id, nombre, ciudad, region
+ dim_vendedor               |        6 | vendedor_key, vendedor_id, nombre, sucursal_actual_id, sucursal_key, fecha_ingreso
+ fact_meta                  |        6 | meta_key, meta_id, mes_fecha_key, sucursal_key, vendedor_key, monto_meta
+ fact_movimiento_inventario |        7 | movimiento_key, movimiento_id, fecha_key, bodega_key, producto_key, tipo, cantidad_delta
+ fact_recaudo               |        8 | recaudo_key, pago_id, factura_id, fecha_key, sucursal_key, cliente_key, vendedor_key, monto_recaudado
+ fact_venta                 |       16 | venta_key, tipo_evento, linea_origen_id, factura_id, fecha_key, sucursal_key, cliente_key, vendedor_key, producto_key, unidades, valor_bruto, descuento, venta_neta, costo_venta, impuesto, valor_facturado_con_impuesto
+ bitacora_carga             |        9 | corrida_id, iniciado, finalizado, estado, filas_fact_venta, filas_fact_inv, filas_fact_meta, filas_fact_recaudo, mensaje
+(11 filas)
+
+           desde            |    columna    |    hacia     
+----------------------------+---------------+--------------
+ dim_bodega                 | sucursal_key  | dim_sucursal
+ dim_vendedor               | sucursal_key  | dim_sucursal
+ fact_meta                  | mes_fecha_key | dim_fecha
+ fact_meta                  | sucursal_key  | dim_sucursal
+ fact_meta                  | vendedor_key  | dim_vendedor
+ fact_movimiento_inventario | bodega_key    | dim_bodega
+ fact_movimiento_inventario | fecha_key     | dim_fecha
+ fact_movimiento_inventario | producto_key  | dim_producto
+ fact_recaudo               | cliente_key   | dim_cliente
+ fact_recaudo               | fecha_key     | dim_fecha
+ fact_recaudo               | sucursal_key  | dim_sucursal
+ fact_recaudo               | vendedor_key  | dim_vendedor
+ fact_venta                 | cliente_key   | dim_cliente
+ fact_venta                 | fecha_key     | dim_fecha
+ fact_venta                 | producto_key  | dim_producto
+ fact_venta                 | sucursal_key  | dim_sucursal
+ fact_venta                 | vendedor_key  | dim_vendedor
+(17 filas)
+
+
+===== entregables_estudiante\02_DWH\demo_meta_duplicada.sql =====
+ filas_meta |    meta_real    
+------------+-----------------
+        360 | 103770000000.00
+(1 fila)
+
+ filas_despues_del_join |   meta_inflada   
+------------------------+------------------
+                  30224 | 8714770000000.00
+(1 fila)
+
+ meta_id | vendedor_id |    mes     |  monto_meta  | veces_que_se_repite | meta_que_se_sumaria 
+---------+-------------+------------+--------------+---------------------+---------------------
+       1 |           1 | 2024-10-01 | 300000000.00 |                  57 |      17100000000.00
+(1 fila)
+
+ filas |      meta       |     venta      | cumplimiento_pct 
+-------+-----------------+----------------+------------------
+   360 | 103770000000.00 | 77705763987.69 |             74.9
+(1 fila)
+
+
+RESULTADO: OK - todos los scripts corrieron sin errores.
+Salida guardada en: C:\Users\migue\Documents\GitHub\Parcial_Base_de_datos_2_Retail360\entregables_estudiante\02_DWH\salidas\salida_r2.txt
