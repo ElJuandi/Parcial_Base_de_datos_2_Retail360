@@ -15,7 +15,7 @@ productos en algunas bodegas y no logra cobrar todo lo que factura?
 - Adrian Daniel Argotte
 - Miguel Andrés Pava
 - Jerónimo Soto
-- David Gonzáles
+- David González
 
 ## Qué hay en cada carpeta
 
