@@ -1,0 +1,60 @@
+﻿Retail 360 - R8 hallazgos - 2026-11-11 22:19:26 - equipo PAVAPC
+
+===== entregables_estudiante\06_INTERPRETACION\consultas_r8.sql =====
+ cumplimiento_pct | metas_mes_vendedor | metas_cumplidas | vendedores_sobre_100 
+------------------+--------------------+-----------------+----------------------
+             74.3 |                360 |              73 |                    0
+(1 fila)
+
+    grupo     | descuento_pct | margen_pct |   venta_neta   
+--------------+---------------+------------+----------------
+ Eliana Soto  |          12.5 |       26.8 |  4819523160.13
+ Jorge Ríos   |          12.1 |       27.4 |  4596898816.04
+ Los otros 13 |           5.0 |       32.5 | 67648702007.69
+(3 filas)
+
+ pedidos_pendientes | lineas_sin_stock_local | la_central_si_tenia | pct_inventario_en_central 
+--------------------+------------------------+---------------------+---------------------------
+                839 |                    740 |                 740 |                      38.0
+(1 fila)
+
+ segmento | plazo_credito_dias |     saldo      |    vencida     | pct_mas_de_180_dias 
+----------+--------------------+----------------+----------------+---------------------
+ EMPRESA  |                 30 |  9765664566.80 |  8919731379.86 |                65.5
+ PERSONA  |                  0 | 27859885012.33 | 27792493552.87 |                73.9
+          |                    | 37625549579.13 | 36712224932.73 |                71.7
+(3 filas)
+
+ recaudado_sobre_facturado_pct 
+-------------------------------
+                          59.0
+(1 fila)
+
+   categoria    | descuento_pct | margen_pct | costo_sobre_precio_pct 
+----------------+---------------+------------+------------------------
+ Redes          |          6.16 |       25.8 |                   69.6
+ Portátiles     |          6.02 |       30.1 |                   65.7
+ Componentes    |          5.60 |       31.2 |                   65.0
+ Tabletas       |          5.94 |       31.4 |                   64.6
+ Cámaras        |          6.00 |       32.1 |                   63.8
+ Impresoras     |          5.93 |       32.2 |                   63.8
+ Teclados       |          5.77 |       32.7 |                   63.4
+ Monitores      |          6.03 |       32.9 |                   63.1
+ Almacenamiento |          6.19 |       33.3 |                   62.5
+ Auriculares    |          5.94 |       33.4 |                   62.7
+ Mouse          |          5.97 |       33.7 |                   62.4
+ Accesorios     |          6.20 |       33.9 |                   62.0
+(12 filas)
+
+ semestre |   venta_neta   | margen_pct 
+----------+----------------+------------
+ 2024-S2  |  9255961793.98 |      31.70
+ 2025-S1  | 18575397768.10 |      31.96
+ 2025-S2  | 20302647726.72 |      31.90
+ 2026-S1  | 18909806361.50 |      31.78
+ 2026-S2  | 10021310333.56 |      31.81
+(5 filas)
+
+
+RESULTADO: OK - todos los scripts corrieron sin errores.
+Salida guardada en: C:\Users\migue\Documents\GitHub\Parcial_Base_de_datos_2_Retail360\entregables_estudiante\06_INTERPRETACION\salidas\salida_r8.txt
