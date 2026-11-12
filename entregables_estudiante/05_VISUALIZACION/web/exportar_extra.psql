@@ -1,0 +1,12 @@
+-- Retail 360 | R7 | Dos archivos más para la página web, además de los 4 del script 08 del profesor.
+-- Sin ellos la página no podría calcular la cartera (K13, K14) ni la devolución (K04).
+-- Se corre desde la raíz del repositorio. Solo lee; escribe los CSV en export/.
+\set ON_ERROR_STOP on
+
+-- Cartera al corte: una fila por factura (vista dwh.vw_cartera_corte del script 10).
+\copy (SELECT c.factura_id, c.cliente_id, cl.segmento, c.sucursal_id, s.nombre AS sucursal, c.vendedor_id, v.nombre AS vendedor, c.fecha_factura, c.fecha_vencimiento, c.fecha_corte, c.total_factura, c.notas_credito, c.recaudado, c.saldo, c.cartera_vencida, c.dias_desde_vencimiento FROM dwh.vw_cartera_corte c JOIN dwh.dim_cliente cl ON cl.cliente_id = c.cliente_id JOIN dwh.dim_sucursal s ON s.sucursal_id = c.sucursal_id JOIN dwh.dim_vendedor v ON v.vendedor_id = c.vendedor_id ORDER BY c.factura_id) TO 'export/cartera_corte.csv' WITH (FORMAT csv, HEADER true, ENCODING 'UTF8')
+
+-- Unidades facturadas y devueltas: mismo nivel que ventas_mensuales.csv (mes + sucursal + vendedor + categoría).
+\copy (SELECT f.fecha_key / 100 AS periodo_yyyymm, s.sucursal_id, v.vendedor_id, p.categoria, SUM(f.unidades) FILTER (WHERE f.tipo_evento = 'FACTURA') AS unidades_facturadas, COALESCE(-SUM(f.unidades) FILTER (WHERE f.tipo_evento = 'NOTA_CREDITO'), 0) AS unidades_devueltas FROM dwh.fact_venta f JOIN dwh.dim_sucursal s USING (sucursal_key) JOIN dwh.dim_vendedor v USING (vendedor_key) JOIN dwh.dim_producto p USING (producto_key) GROUP BY 1, 2, 3, 4 ORDER BY 1, 2, 3, 4) TO 'export/unidades_mensuales.csv' WITH (FORMAT csv, HEADER true, ENCODING 'UTF8')
+
+\echo 'Exportes extra completados: export/cartera_corte.csv y export/unidades_mensuales.csv'

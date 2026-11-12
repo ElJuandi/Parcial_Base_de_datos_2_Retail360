@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retail 360 · Tablero</title>
+<!-- Página autocontenida: no usa internet, CDN, API ni fetch. Los datos van embebidos abajo. -->
+<style>
+:root {
+  color-scheme: light;
+  --surface-0: #f3f2ef;
+  --surface-1: #fcfcfb;
+  --border: #dddcd7;
+  --grid: #e8e7e3;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #7a7974;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --ref-line: #52514e;
+  --good: #0f7b3f;
+  --bad: #c42b2b;
+  --accent: #2a78d6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --surface-0: #111110;
+    --surface-1: #1a1a19;
+    --border: #34332f;
+    --grid: #2a2926;
+    --text-primary: #f0efec;
+    --text-secondary: #c3c2b7;
+    --text-muted: #9a998f;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --ref-line: #c3c2b7;
+    --good: #4cc27f;
+    --bad: #ef6b6b;
+    --accent: #3987e5;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-0: #111110;
+  --surface-1: #1a1a19;
+  --border: #34332f;
+  --grid: #2a2926;
+  --text-primary: #f0efec;
+  --text-secondary: #c3c2b7;
+  --text-muted: #9a998f;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --ref-line: #c3c2b7;
+  --good: #4cc27f;
+  --bad: #ef6b6b;
+  --accent: #3987e5;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--surface-0); color: var(--text-primary);
+  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+header { padding: 16px 20px 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px; }
+header h1 { font-size: 20px; margin: 0; }
+header .sub { color: var(--text-secondary); font-size: 13px; }
+nav { display: flex; flex-wrap: wrap; gap: 4px; padding: 0 20px; border-bottom: 1px solid var(--border); }
+nav button { border: 0; background: none; color: var(--text-secondary); padding: 10px 12px; font: inherit;
+  cursor: pointer; border-bottom: 2px solid transparent; }
+nav button[aria-selected="true"] { color: var(--text-primary); border-bottom-color: var(--accent); font-weight: 600; }
+.filtros { display: flex; flex-wrap: wrap; gap: 10px 14px; padding: 12px 20px; align-items: end; }
+.filtros label { display: flex; flex-direction: column; font-size: 12px; color: var(--text-secondary); gap: 3px; }
+.filtros select { font: inherit; padding: 5px 8px; min-width: 170px; background: var(--surface-1);
+  color: var(--text-primary); border: 1px solid var(--border); border-radius: 6px; }
+.filtros select:disabled { opacity: .45; }
+.filtros button { font: inherit; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--surface-1); color: var(--text-primary); cursor: pointer; }
+.aviso { padding: 0 20px 6px; color: var(--text-muted); font-size: 12px; min-height: 18px; }
+main { padding: 4px 20px 30px; }
+.tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 12px; }
+.tarjeta { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+.tarjeta .t { font-size: 12px; color: var(--text-secondary); }
+.tarjeta .v { font-size: 24px; font-weight: 650; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.tarjeta .x { font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 12px; align-items: start; }
+.panel { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 12px; min-width: 0; }
+.panel h3 { margin: 0 0 2px; font-size: 14px; }
+.panel .nota { margin: 0 0 8px; font-size: 12px; color: var(--text-muted); }
+.leyenda { display: flex; gap: 14px; font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+.leyenda i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+svg { display: block; width: 100%; height: auto; overflow: visible; }
+svg text { fill: var(--text-secondary); font-size: 11px; }
+.tabla { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+.tabla th, .tabla td { padding: 5px 6px; border-bottom: 1px solid var(--grid); text-align: right; white-space: nowrap; }
+.tabla th:first-child, .tabla td:first-child { text-align: left; }
+.tabla th { color: var(--text-secondary); font-weight: 600; position: sticky; top: 0; background: var(--surface-1); }
+.scroll { max-height: 320px; overflow: auto; }
+.ok { color: var(--good); font-weight: 600; }
+.mal { color: var(--bad); font-weight: 600; }
+#tip { position: fixed; pointer-events: none; background: var(--surface-1); color: var(--text-primary);
+  border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font-size: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.18); display: none; z-index: 10; white-space: pre; }
+.defs dt { font-weight: 600; margin-top: 8px; }
+.defs dd { margin: 2px 0 0; color: var(--text-secondary); }
+@media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } .filtros select { min-width: 140px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Retail 360 · Tablero</h1>
+  <span class="sub" id="sub"></span>
+</header>
+<nav role="tablist" id="tabs"></nav>
+<div class="filtros">
+  <label>Mes <select id="f-mes"></select></label>
+  <label>Sucursal <select id="f-suc"></select></label>
+  <label>Vendedor <select id="f-ven"></select></label>
+  <label>Categoría <select id="f-cat"></select></label>
+  <button id="limpiar" type="button">Quitar filtros</button>
+</div>
+<div class="aviso" id="aviso"></div>
+<main id="contenido"></main>
+<div id="tip"></div>
+
+<script>
+/* Datos embebidos por generar_tablero.py desde los CSV de export/ */
+const D = /*__DATOS__*/null;
+</script>
+<script>
+"use strict";
+// ---------- utilidades ----------
+const $ = (s) => document.querySelector(s);
+const nf0 = new Intl.NumberFormat("es-CO", { maximumFractionDigits: 0 });
+const nf2 = new Intl.NumberFormat("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const cop = (c) => c == null ? "—" : "$ " + nf2.format(c / 100);           // c en centavos
+const copCorto = (c) => {
+  if (c == null) return "—";
+  const v = c / 100, a = Math.abs(v);
+  if (a >= 1e9) return "$ " + nf2.format(v / 1e9) + " mil M";
+  if (a >= 1e6) return "$ " + nf2.format(v / 1e6) + " M";
+  return "$ " + nf0.format(v);
+};
+const pct = (x) => x == null || !isFinite(x) ? "—" : nf2.format(x * 100) + " %";
+const ent = (x) => x == null ? "—" : nf0.format(x);
+const div = (a, b) => (b === 0 || b == null || a == null) ? null : a / b;
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const mesTxt = (p) => String(p).slice(0, 4) + "-" + String(p).slice(4);
+
+// ---------- cálculo de indicadores (mismas fórmulas que catalogo_kpi.md) ----------
+// f = { mes, suc, ven, cat } ; null = sin filtro
+function pasa(f, mes, suc, ven, cat) {
+  return (f.mes == null || mes === f.mes) && (f.suc == null || suc === f.suc) &&
+         (f.ven == null || ven === f.ven) && (f.cat == null || cat === f.cat);
+}
+function calcular(f) {
+  const k = {};
+  // ventas_mensuales: [mes, suc, ven, cat, unidades_net, venta_neta, costo, margen, descuentos, neto_iva] (dinero en centavos)
+  let vn = 0, un = 0, desc = 0, mg = 0, iva = 0;
+  for (const r of D.ventas) if (pasa(f, r[0], r[1], r[2], r[3])) { un += r[4]; vn += r[5]; mg += r[7]; desc += r[8]; iva += r[9]; }
+  k.K01 = vn; k.K02 = un; k.K03 = div(desc, vn + desc); k.K05 = mg; k.K06 = div(mg, vn); k.K15 = iva;
+  // unidades_mensuales: [mes, suc, ven, cat, facturadas, devueltas]
+  let uf = 0, ud = 0;
+  for (const r of D.unidades) if (pasa(f, r[0], r[1], r[2], r[3])) { uf += r[4]; ud += r[5]; }
+  k.K04 = div(ud, uf);
+  // metas: [mes, suc, ven, meta]. La meta no tiene categoría: con ese filtro no se calcula (reto C12).
+  if (f.cat != null) { k.K07 = k.K08 = k.K09 = null; }
+  else {
+    let meta = 0, n = 0, cumple = 0;
+    const ventaNivel = new Map();                       // venta resumida al nivel de la meta
+    for (const r of D.ventas) if (pasa(f, r[0], r[1], r[2], null)) {
+      const key = r[0] + "|" + r[1] + "|" + r[2];
+      ventaNivel.set(key, (ventaNivel.get(key) || 0) + r[5]);
+    }
+    let ventaMeta = 0;
+    for (const r of D.metas) if (pasa(f, r[0], r[1], r[2], null)) {
+      const v = ventaNivel.get(r[0] + "|" + r[1] + "|" + r[2]) || 0;
+      meta += r[3]; n++; ventaMeta += v; if (v >= r[3]) cumple++;
+    }
+    k.K07 = meta; k.K08 = div(ventaMeta, meta); k.K09 = div(cumple, n);
+  }
+  // stock_corte: [bodega_id, suc|null, producto, cat, existencia] (foto al corte: sin mes ni vendedor)
+  let ex = 0, ag = 0;
+  for (const r of D.stock) if ((f.suc == null || r[1] === f.suc) && (f.cat == null || r[3] === f.cat)) {
+    ex += r[4]; if (r[1] != null && r[4] <= 0) ag++;
+  }
+  k.K10 = ex; k.K11 = ag;
+  // recaudos: [mes, suc, monto] (el archivo no trae vendedor ni categoría)
+  let rec = 0;
+  for (const r of D.recaudos) if ((f.mes == null || r[0] === f.mes) && (f.suc == null || r[1] === f.suc)) rec += r[2];
+  k.K12 = rec;
+  // cartera: [suc, ven, segmento, saldo, vencida, dias] (foto al corte: sin mes ni categoría)
+  let sal = 0, venc = 0;
+  for (const r of D.cartera) if ((f.suc == null || r[0] === f.suc) && (f.ven == null || r[1] === f.ven)) { sal += r[3]; venc += r[4]; }
+  k.K13 = sal; k.K14 = div(venc, sal);
+  return k;
+}
+
+// ---------- estado y filtros ----------
+const F = { mes: null, suc: null, ven: null, cat: null };
+const PAGINAS = [
+  { id: "comercial", nombre: "1. Ventas y margen", usa: ["mes", "suc", "ven", "cat"] },
+  { id: "stock", nombre: "2. Inventario al corte", usa: ["suc", "cat"],
+    aviso: "Foto al 30/09/2026: el inventario no se filtra por mes ni por vendedor." },
+  { id: "metas", nombre: "3. Vendedores y metas", usa: ["mes", "suc", "ven"],
+    aviso: "La meta es por vendedor, sucursal y mes: no se filtra por categoría (reto C12)." },
+  { id: "recaudo", nombre: "4. Facturación, recaudo y cartera", usa: ["mes", "suc", "ven"],
+    aviso: "El recaudo usa la fecha del pago y no trae vendedor. La cartera es una foto al corte: no se filtra por mes." },
+  { id: "defs", nombre: "Definiciones", usa: [] },
+  { id: "valida", nombre: "Validación", usa: [] }
+];
+let pagina = "comercial";
+
+function opciones(sel, items, todos) {
+  sel.innerHTML = `<option value="">${todos}</option>` +
+    items.map(([v, t]) => `<option value="${esc(v)}">${esc(t)}</option>`).join("");
+}
+function iniciarFiltros() {
+  opciones($("#f-mes"), D.meses.map((m) => [m, mesTxt(m)]), "Todos los meses");
+  opciones($("#f-suc"), Object.entries(D.sucursales), "Todas las sucursales");
+  opciones($("#f-ven"), Object.entries(D.vendedores).sort((a, b) => a[1].localeCompare(b[1])), "Todos los vendedores");
+  opciones($("#f-cat"), D.categorias.map((c, i) => [i, c]), "Todas las categorías");
+  const leer = () => {
+    F.mes = $("#f-mes").value === "" ? null : +$("#f-mes").value;
+    F.suc = $("#f-suc").value === "" ? null : +$("#f-suc").value;
+    F.ven = $("#f-ven").value === "" ? null : +$("#f-ven").value;
+    F.cat = $("#f-cat").value === "" ? null : +$("#f-cat").value;
+    pintar();
+  };
+  ["#f-mes", "#f-suc", "#f-ven", "#f-cat"].forEach((s) => $(s).addEventListener("change", leer));
+  $("#limpiar").addEventListener("click", () => { ["#f-mes", "#f-suc", "#f-ven", "#f-cat"].forEach((s) => $(s).value = ""); leer(); });
+}
+// Filtros que valen en la página actual (los demás se ignoran y se muestran apagados).
+function filtroPagina() {
+  const p = PAGINAS.find((x) => x.id === pagina);
+  const g = { mes: null, suc: null, ven: null, cat: null };
+  for (const c of p.usa) g[c] = F[c];
+  const mapa = { mes: "#f-mes", suc: "#f-suc", ven: "#f-ven", cat: "#f-cat" };
+  for (const c in mapa) $(mapa[c]).disabled = p.usa.length > 0 && !p.usa.includes(c);
+  $("#aviso").textContent = p.aviso || "";
+  return g;
+}
+
+// ---------- gráficas en SVG (sin librerías) ----------
+const tip = $("#tip");
+document.addEventListener("mousemove", (e) => {
+  const t = e.target.closest ? e.target.closest("[data-tip]") : null;
+  if (!t) { tip.style.display = "none"; return; }
+  tip.textContent = t.getAttribute("data-tip"); tip.style.display = "block";
+  const w = tip.offsetWidth, x = e.clientX + 14 + w > innerWidth ? e.clientX - w - 10 : e.clientX + 14;
+  tip.style.left = x + "px"; tip.style.top = (e.clientY + 12) + "px";
+});
+function escala(max) {
+  if (max <= 0) return { max: 1, pasos: [0, 1] };
+  const bruto = max / 4, mag = Math.pow(10, Math.floor(Math.log10(bruto)));
+  const paso = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => s >= bruto);
+  const top = Math.ceil(max / paso) * paso, pasos = [];
+  for (let v = 0; v <= top + 1e-9; v += paso) pasos.push(v);
+  return { max: top, pasos };
+}
+// Columnas verticales (1 o 2 series). items: [{etq, vals:[...], tips:[...]}]
+function columnas(items, opt) {
+  const W = 640, H = 230, L = 58, B = 40, T = 10, ns = items[0] ? items[0].vals.length : 1;
+  const max = Math.max(0, ...items.flatMap((i) => i.vals.map((v) => v || 0)));
+  const e = escala(max), iw = W - L - 6, ih = H - T - B, bw = iw / Math.max(items.length, 1);
+  const gap = 2, colW = Math.max(2, Math.min(28, (bw - 6) / ns - gap));
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opt.titulo)}">`;
+  for (const p of e.pasos) {
+    const y = T + ih - (p / e.max) * ih;
+    s += `<line x1="${L}" x2="${W - 6}" y1="${y}" y2="${y}" stroke="var(--grid)"/>`;
+    s += `<text x="${L - 6}" y="${y + 4}" text-anchor="end">${esc(opt.fmtEje(p))}</text>`;
+  }
+  const cada = Math.ceil(items.length / 12);
+  items.forEach((it, i) => {
+    const x0 = L + i * bw + (bw - ns * (colW + gap)) / 2;
+    it.vals.forEach((v, j) => {
+      const h = Math.max(0, ((v || 0) / e.max) * ih), x = x0 + j * (colW + gap), y = T + ih - h;
+      const r = Math.min(4, colW / 2, h);
+      s += `<path d="M${x},${T + ih} V${y + r} Q${x},${y} ${x + r},${y} H${x + colW - r} Q${x + colW},${y} ${x + colW},${y + r} V${T + ih} Z" fill="var(--series-${j + 1})" data-tip="${esc(it.tips[j])}"/>`;
+    });
+    s += `<rect x="${L + i * bw}" y="${T}" width="${bw}" height="${ih}" fill="transparent" data-tip="${esc(it.tips.join("\n"))}"/>`;
+    if (i % cada === 0) s += `<text x="${L + i * bw + bw / 2}" y="${H - B + 14}" text-anchor="end" transform="rotate(-40 ${L + i * bw + bw / 2} ${H - B + 14})">${esc(it.etq)}</text>`;
+  });
+  s += `<line x1="${L}" x2="${W - 6}" y1="${T + ih}" y2="${T + ih}" stroke="var(--text-muted)"/>`;
+  return s + "</svg>";
+}
+// Barras horizontales. items: [{etq, val, tip}], opt.ref = línea de referencia (por ejemplo 1 = 100 %)
+function barras(items, opt) {
+  const W = 640, fila = 24, L = 150, R = 70, T = 6, H = T + items.length * fila + 22;
+  const max = Math.max(opt.ref || 0, ...items.map((i) => i.val || 0));
+  const e = escala(max), iw = W - L - R;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opt.titulo)}">`;
+  for (const p of e.pasos) {
+    const x = L + (p / e.max) * iw;
+    s += `<line x1="${x}" x2="${x}" y1="${T}" y2="${H - 20}" stroke="var(--grid)"/>`;
+    s += `<text x="${x}" y="${H - 6}" text-anchor="middle">${esc(opt.fmtEje(p))}</text>`;
+  }
+  items.forEach((it, i) => {
+    const y = T + i * fila + 4, w = Math.max(0, ((it.val || 0) / e.max) * iw), h = fila - 9, r = Math.min(4, h / 2, w);
+    s += `<text x="${L - 8}" y="${y + h - 3}" text-anchor="end">${esc(it.etq)}</text>`;
+    s += `<path d="M${L},${y} H${L + w - r} Q${L + w},${y} ${L + w},${y + r} V${y + h - r} Q${L + w},${y + h} ${L + w - r},${y + h} H${L} Z" fill="var(--series-1)" data-tip="${esc(it.tip)}"/>`;
+    s += `<text x="${L + w + 6}" y="${y + h - 3}">${esc(it.lab != null ? it.lab : opt.fmtVal(it.val))}</text>`;
+  });
+  if (opt.ref) {
+    const x = L + (opt.ref / e.max) * iw;
+    s += `<line x1="${x}" x2="${x}" y1="${T}" y2="${H - 20}" stroke="var(--ref-line)" stroke-dasharray="4 3" stroke-width="1.5"/>`;
+  }
+  return s + "</svg>";
+}
+// Línea (una serie) con puntos y tooltip
+function linea(items, opt) {
+  const W = 640, H = 210, L = 58, B = 40, T = 12, iw = W - L - 10, ih = H - T - B;
+  const vals = items.map((i) => i.val).filter((v) => v != null);
+  if (!vals.length) return "<p class='nota'>Sin datos con estos filtros.</p>";
+  let lo = Math.min(...vals), hi = Math.max(...vals); const pad = (hi - lo) * 0.25 || 0.01; lo -= pad; hi += pad;
+  const X = (i) => L + (items.length === 1 ? iw / 2 : (i / (items.length - 1)) * iw), Y = (v) => T + ih - ((v - lo) / (hi - lo)) * ih;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opt.titulo)}">`;
+  for (let j = 0; j <= 4; j++) {
+    const v = lo + (j / 4) * (hi - lo), y = Y(v);
+    s += `<line x1="${L}" x2="${W - 10}" y1="${y}" y2="${y}" stroke="var(--grid)"/><text x="${L - 6}" y="${y + 4}" text-anchor="end">${esc(opt.fmtEje(v))}</text>`;
+  }
+  s += `<polyline fill="none" stroke="var(--series-1)" stroke-width="2" points="${items.map((it, i) => it.val == null ? "" : X(i) + "," + Y(it.val)).join(" ")}"/>`;
+  const cada = Math.ceil(items.length / 12);
+  items.forEach((it, i) => {
+    if (it.val != null) s += `<circle cx="${X(i)}" cy="${Y(it.val)}" r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2" data-tip="${esc(it.tip)}"/>`;
+    if (i % cada === 0) s += `<text x="${X(i)}" y="${H - B + 14}" text-anchor="end" transform="rotate(-40 ${X(i)} ${H - B + 14})">${esc(it.etq)}</text>`;
+  });
+  return s + "</svg>";
+}
+const leyenda = (nombres) => `<div class="leyenda">${nombres.map((n, i) => `<span><i style="background:var(--series-${i + 1})"></i>${esc(n)}</span>`).join("")}</div>`;
+const tarjeta = (t, v, x) => `<div class="tarjeta"><div class="t">${esc(t)}</div><div class="v">${v}</div><div class="x">${x || ""}</div></div>`;
+const panel = (titulo, nota, cuerpo) => `<section class="panel"><h3>${esc(titulo)}</h3>${nota ? `<p class="nota">${esc(nota)}</p>` : ""}${cuerpo}</section>`;
+function tabla(cab, filas) {
+  return `<div class="scroll"><table class="tabla"><thead><tr>${cab.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>` +
+    filas.map((f) => `<tr>${f.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("") + "</tbody></table></div>";
+}
+
+// ---------- páginas ----------
+function pComercial(f) {
+  const k = calcular(f);
+  let h = `<div class="tarjetas">` +
+    tarjeta("K01 Ventas netas (sin IVA)", copCorto(k.K01), cop(k.K01)) +
+    tarjeta("K05 Margen bruto", copCorto(k.K05), cop(k.K05)) +
+    tarjeta("K06 Margen bruto %", pct(k.K06)) +
+    tarjeta("K03 Descuento efectivo", pct(k.K03)) +
+    tarjeta("K04 Devolución (unidades)", pct(k.K04), "K02 unidades netas: " + ent(k.K02)) + `</div>`;
+  const porMes = D.meses.filter((m) => f.mes == null || m === f.mes).map((m) => ({ m, k: calcular({ ...f, mes: m }) }));
+  h += `<div class="grid2">`;
+  h += panel("Ventas netas por mes", "Las notas crédito restan en el mes en que se hicieron.",
+    columnas(porMes.map((x) => ({ etq: mesTxt(x.m), vals: [x.k.K01], tips: [mesTxt(x.m) + "  " + cop(x.k.K01)] })),
+      { titulo: "Ventas netas por mes", fmtEje: (v) => nf0.format(v / 1e8) + " M" }));
+  h += panel("Margen bruto % por mes", "Gráfica aparte (sin doble eje). El eje se ajusta al rango para ver la variación.",
+    linea(porMes.map((x) => ({ etq: mesTxt(x.m), val: x.k.K06, tip: mesTxt(x.m) + "  " + pct(x.k.K06) })),
+      { titulo: "Margen bruto % por mes", fmtEje: (v) => nf2.format(v * 100) + " %" }));
+  const porCat = D.categorias.map((c, i) => ({ c, k: calcular({ ...f, cat: i }) })).filter((x) => f.cat == null || D.categorias[f.cat] === x.c)
+    .sort((a, b) => b.k.K01 - a.k.K01);
+  h += panel("Ventas netas por categoría", "La etiqueta muestra el margen bruto %.",
+    barras(porCat.map((x) => ({ etq: x.c, val: x.k.K01, lab: "margen " + pct(x.k.K06), tip: x.c + "\nVentas " + cop(x.k.K01) + "\nMargen " + pct(x.k.K06) + "\nDescuento " + pct(x.k.K03) })),
+      { titulo: "Ventas por categoría", fmtEje: (v) => nf0.format(v / 1e8) + " M", fmtVal: copCorto }) +
+    tabla(["Categoría", "Ventas netas", "Margen %", "Descuento %"], porCat.map((x) => [esc(x.c), cop(x.k.K01), pct(x.k.K06), pct(x.k.K03)])));
+  const porVen = Object.entries(D.vendedores).map(([id, n]) => ({ n, k: calcular({ ...f, ven: +id }) }))
+    .filter((x) => x.k.K01 !== 0).sort((a, b) => b.k.K03 - a.k.K03);
+  h += panel("Descuento y margen por vendedor", "Ordenado de mayor a menor descuento: quien da más descuento deja menos margen (reto C07).",
+    tabla(["Vendedor", "Ventas netas", "Descuento %", "Margen %"], porVen.map((x) => [esc(x.n), cop(x.k.K01), pct(x.k.K03), pct(x.k.K06)])));
+  return h + `</div>`;
+}
+function pStock(f) {
+  const k = calcular(f);
+  const filas = D.stock.filter((r) => (f.suc == null || r[1] === f.suc) && (f.cat == null || r[3] === f.cat));
+  const central = filas.filter((r) => r[1] == null).reduce((a, r) => a + r[4], 0);
+  let h = `<div class="tarjetas">` + tarjeta("K10 Existencias al corte", ent(k.K10), "unidades") +
+    tarjeta("K11 Agotados en sucursales", ent(k.K11), "bodega local + producto en 0") +
+    tarjeta("Unidades en bodega central", ent(central)) + tarjeta("Fecha de corte", "30/09/2026", "no se cambia") + `</div><div class="grid2">`;
+  const porBod = Object.entries(D.bodegas).map(([id, b]) => ({ b: b[0], v: filas.filter((r) => r[0] === +id).reduce((a, r) => a + r[4], 0) }))
+    .filter((x) => x.v !== 0 || f.suc == null);
+  h += panel("Existencias por bodega", null,
+    barras(porBod.map((x) => ({ etq: x.b, val: x.v, tip: x.b + "  " + ent(x.v) + " u." })), { titulo: "Existencias por bodega", fmtEje: ent, fmtVal: ent }));
+  const bajos = filas.filter((r) => r[1] != null && r[4] < 3).sort((a, b) => a[4] - b[4] || a[0] - b[0]);
+  h += panel("Productos con menos de 3 unidades en sucursales", bajos.length + " productos",
+    tabla(["Bodega", "Producto", "Categoría", "Existencia"], bajos.map((r) => [esc(D.bodegas[r[0]][0]), esc(D.productos[r[2]]), esc(D.categorias[r[3]]), ent(r[4])])));
+  h += panel("Pedidos pendientes por falta de stock", null,
+    `<p>Reto C08: hubo 839 pedidos pendientes por stock. En las 740 líneas donde la bodega de la sucursal no alcanzaba, la bodega central sí tenía las unidades. El problema es mover el inventario a tiempo, no comprar más.</p>`);
+  return h + `</div>`;
+}
+function pMetas(f) {
+  const k = calcular(f);
+  let h = `<div class="tarjetas">` + tarjeta("K07 Meta de ventas", copCorto(k.K07), cop(k.K07)) + tarjeta("K01 Ventas netas", copCorto(k.K01), cop(k.K01)) +
+    tarjeta("K08 Cumplimiento de meta", pct(k.K08)) + tarjeta("K09 Meses con meta cumplida", pct(k.K09), "% de meses-vendedor") + `</div><div class="grid2">`;
+  const porVen = Object.entries(D.vendedores).map(([id, n]) => ({ n, k: calcular({ ...f, ven: +id }) }))
+    .filter((x) => x.k.K07 > 0).sort((a, b) => b.k.K08 - a.k.K08);
+  h += panel("Cumplimiento por vendedor", "La línea punteada marca el 100 %.",
+    barras(porVen.map((x) => ({ etq: x.n, val: x.k.K08, tip: x.n + "\nMeta " + cop(x.k.K07) + "\nVentas " + cop(x.k.K01) + "\nCumplimiento " + pct(x.k.K08) })),
+      { titulo: "Cumplimiento por vendedor", ref: 1, fmtEje: (v) => nf0.format(v * 100) + " %", fmtVal: pct }));
+  const porMes = D.meses.filter((m) => f.mes == null || m === f.mes).map((m) => ({ m, k: calcular({ ...f, mes: m }) }));
+  h += panel("Meta contra ventas por mes", "Las dos en la misma escala.",
+    leyenda(["Meta", "Ventas netas"]) + columnas(porMes.map((x) => ({ etq: mesTxt(x.m), vals: [x.k.K07, x.k.K01],
+      tips: ["Meta " + cop(x.k.K07), "Ventas " + cop(x.k.K01) + " (" + pct(x.k.K08) + ")"] })),
+      { titulo: "Meta contra ventas", fmtEje: (v) => nf0.format(v / 1e8) + " M" }));
+  h += panel("Tabla por vendedor", "Para ver si cumplen la meta regalando margen.",
+    tabla(["Vendedor", "Meta", "Ventas netas", "Cumplimiento", "Meses cumplidos", "Descuento %", "Margen %"],
+      porVen.map((x) => [esc(x.n), cop(x.k.K07), cop(x.k.K01), pct(x.k.K08), pct(x.k.K09), pct(x.k.K03), pct(x.k.K06)])));
+  return h + `</div>`;
+}
+function pRecaudo(f) {
+  const k = calcular(f);
+  let h = `<div class="tarjetas">` + tarjeta("K15 Facturación con IVA", copCorto(k.K15), cop(k.K15)) + tarjeta("K12 Recaudo", copCorto(k.K12), cop(k.K12) + (f.ven != null ? " · sin filtro de vendedor" : "")) +
+    tarjeta("K13 Saldo de cartera al corte", copCorto(k.K13), cop(k.K13)) + tarjeta("K14 Cartera vencida", pct(k.K14)) + `</div><div class="grid2">`;
+  const porMes = D.meses.filter((m) => f.mes == null || m === f.mes).map((m) => ({ m, k: calcular({ ...f, mes: m }) }));
+  h += panel("Facturado contra recaudado por mes", "Son flujos de cada mes. Restarlos no da la cartera ni dice qué está vencido (reto C10).",
+    leyenda(["Facturado con IVA", "Recaudado"]) + columnas(porMes.map((x) => ({ etq: mesTxt(x.m), vals: [x.k.K15, x.k.K12],
+      tips: ["Facturado " + cop(x.k.K15), "Recaudado " + cop(x.k.K12)] })), { titulo: "Facturado contra recaudado", fmtEje: (v) => nf0.format(v / 1e8) + " M" }));
+  const tramos = ["0. Aún no vence", "1. 1 a 30 días", "2. 31 a 90 días", "3. 91 a 180 días", "4. Más de 180 días"], ac = [0, 0, 0, 0, 0];
+  const segs = {}; const filas = D.cartera.filter((r) => (f.suc == null || r[0] === f.suc) && (f.ven == null || r[1] === f.ven));
+  for (const r of filas) {
+    if (r[3] > 0) ac[r[4] === 0 ? 0 : r[5] <= 30 ? 1 : r[5] <= 90 ? 2 : r[5] <= 180 ? 3 : 4] += r[3];
+    const s = D.segmentos[r[2]]; segs[s] = segs[s] || [0, 0]; segs[s][0] += r[3]; segs[s][1] += r[4];
+  }
+  h += panel("Cartera por antigüedad", "Saldo con IVA, factura por factura.",
+    barras(tramos.map((t, i) => ({ etq: t, val: ac[i], tip: t + "  " + cop(ac[i]) })), { titulo: "Cartera por antigüedad", fmtEje: (v) => nf0.format(v / 1e11) + " mil M", fmtVal: copCorto }));
+  h += panel("Cartera por tipo de cliente", "Las personas pagan de contado (0 días); las empresas tienen 30 días.",
+    tabla(["Segmento", "Saldo", "Vencida", "% vencida"], Object.entries(segs).map(([s, v]) => [esc(s), cop(v[0]), cop(v[1]), pct(div(v[1], v[0]))])));
+  return h + `</div>`;
+}
+const DEFS = [
+  ["K01 Ventas netas", "Suma de venta_neta: sin IVA, ya con las notas crédito restando en su mes."],
+  ["K02 Unidades netas", "Unidades facturadas menos devueltas."],
+  ["K03 Descuento efectivo %", "Descuentos / valor bruto (venta neta + descuentos)."],
+  ["K04 Tasa de devolución %", "Unidades devueltas / unidades facturadas (no netas)."],
+  ["K05 Margen bruto", "Venta neta − costo de venta. No es utilidad: no incluye arriendos, nómina ni otros gastos."],
+  ["K06 Margen bruto %", "K05 / K01. Se divide los totales, nunca se promedian porcentajes."],
+  ["K07 Meta de ventas", "Suma de metas por vendedor, sucursal y mes. No tiene categoría."],
+  ["K08 Cumplimiento %", "Ventas netas / meta, con la venta resumida primero al nivel de la meta."],
+  ["K09 Meses con meta cumplida %", "Metas (vendedor + sucursal + mes) donde la venta llegó a la meta / total de metas."],
+  ["K10 Existencias al corte", "Suma de movimientos hasta el 30/09/2026. Es una foto: no se suman fechas."],
+  ["K11 Agotados en sucursales", "Pares bodega local + producto con existencia ≤ 0."],
+  ["K12 Recaudo", "Pagos por la fecha del pago, con IVA. No es lo que falta por cobrar."],
+  ["K13 Saldo de cartera", "Por factura: total con IVA − notas − pagos hasta el corte."],
+  ["K14 Cartera vencida %", "Saldo de facturas vencidas / K13."],
+  ["K15 Facturación con IVA", "Suma de valor facturado con impuesto (para comparar con recaudo y cartera)."]
+];
+function pDefs() {
+  return panel("Definiciones de los indicadores", "Contrato aprobado por el grupo en R5 (04_KPI/catalogo_kpi.md). Esta página no inventa indicadores nuevos.",
+    `<dl class="defs">${DEFS.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join("")}</dl>`) +
+    panel("Qué no se puede calcular con estos datos", null,
+    `<p>Utilidad neta, rotación de inventario valorizada y margen después de comisiones: el caso no trae esos datos. El recaudo por vendedor o categoría tampoco, porque el archivo de recaudos no los incluye.</p>`);
+}
+const NOMBRES = { K01: "K01 Ventas netas", K02: "K02 Unidades netas", K03: "K03 Descuento %", K04: "K04 Devolución %", K05: "K05 Margen bruto", K06: "K06 Margen %",
+  K07: "K07 Meta", K08: "K08 Cumplimiento %", K09: "K09 Meses con meta cumplida %", K10: "K10 Existencias", K11: "K11 Agotados", K12: "K12 Recaudo",
+  K13: "K13 Saldo de cartera", K14: "K14 Cartera vencida %", K15: "K15 Facturación con IVA" };
+const PORC = ["K03", "K04", "K06", "K08", "K09", "K14"], DINERO = ["K01", "K05", "K07", "K12", "K13", "K15"];
+const comoSQL = (c, v) => v == null ? null : PORC.includes(c) ? Math.round(v * 10000) / 100 : DINERO.includes(c) ? Math.round(v) / 100 : v;
+const verSQL = (c, v) => v == null ? "—" : PORC.includes(c) ? nf2.format(v) : DINERO.includes(c) ? nf2.format(v) : nf0.format(v);
+function pValida() {
+  const A = calcular({ mes: null, suc: null, ven: null, cat: null }), B = calcular({ mes: 202609, suc: 2, ven: null, cat: null });
+  let ok = 0;
+  const filas = Object.keys(NOMBRES).map((c) => {
+    const a = comoSQL(c, A[c]), b = comoSQL(c, B[c]), sa = D.referencia.A[c], sb = D.referencia.B[c];
+    const bien = a === sa && b === sb; if (bien) ok++;
+    return [esc(NOMBRES[c]), verSQL(c, a), verSQL(c, sa), verSQL(c, b), verSQL(c, sb), bien ? '<span class="ok">✓ igual</span>' : '<span class="mal">✗ distinto</span>'];
+  });
+  let h = panel("Comparación con SQL", `Escenario A = todo. Escenario B = Sucursal Pereira y septiembre de 2026. Los valores SQL vienen de 04_KPI/kpi_referencia.sql. Porcentajes × 100. Resultado: ${ok} de 15 iguales.`,
+    tabla(["Indicador", "A: página", "A: SQL", "B: página", "B: SQL", ""], filas));
+  const c = D.control;
+  h += panel("Control de los archivos embebidos", "Filas y totales de cada archivo, contra lo que dijo validar_exportes.sql en R4.",
+    tabla(["Archivo", "Filas", "Esperado", "Total", "Esperado", ""], c.map((x) => [esc(x[0]), nf0.format(x[1]), nf0.format(x[2]), esc(x[3]), esc(x[4]), x[3] === x[4] && x[1] === x[2] ? '<span class="ok">✓</span>' : '<span class="mal">✗</span>'])));
+  h += `<p class="nota">Botones para ver el escenario B en las páginas: <button type="button" id="verB">Poner filtros del escenario B</button></p>`;
+  return h;
+}
+
+function pintar() {
+  const f = filtroPagina(), p = $("#contenido");
+  p.innerHTML = pagina === "comercial" ? pComercial(f) : pagina === "stock" ? pStock(f) : pagina === "metas" ? pMetas(f) :
+    pagina === "recaudo" ? pRecaudo(f) : pagina === "defs" ? pDefs() : pValida();
+  const b = $("#verB");
+  if (b) b.addEventListener("click", () => { $("#f-mes").value = "202609"; $("#f-suc").value = "2"; $("#f-ven").value = ""; $("#f-cat").value = "";
+    F.mes = 202609; F.suc = 2; F.ven = null; F.cat = null; irA("comercial"); });
+}
+function irA(id) {
+  pagina = id;
+  document.querySelectorAll("nav button").forEach((b) => b.setAttribute("aria-selected", b.dataset.id === id));
+  pintar();
+}
+$("#tabs").innerHTML = PAGINAS.map((p) => `<button role="tab" data-id="${p.id}">${esc(p.nombre)}</button>`).join("");
+$("#tabs").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) irA(b.dataset.id); });
+$("#sub").textContent = `Corte 30/09/2026 · Datos de ${mesTxt(D.meses[0])} a ${mesTxt(D.meses[D.meses.length - 1])} · Generado ${D.generado} · Funciona sin internet`;
+iniciarFiltros();
+irA("comercial");
+</script>
+</body>
+</html>

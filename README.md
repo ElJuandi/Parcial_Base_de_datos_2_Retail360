@@ -40,8 +40,8 @@ Trabajamos por etapas (gates). No pasamos a la siguiente hasta terminar bien la 
 | R4 | Consultas SQL y archivos para el tablero | Listo |
 | R5 | Indicadores (KPI) | Listo |
 | R6 | Tablero en Power BI | Listo |
-| R7 | Tablero web hecho con IA | Siguiente |
-| R8 | Hallazgos y decisiones | Pendiente |
+| R7 | Tablero web hecho con IA | Listo |
+| R8 | Hallazgos y decisiones | Siguiente |
 | R9 | Informe final y sustentación | Pendiente |
 
 El detalle de cada etapa está en `entregables_estudiante/PLAN_GATES.md`.

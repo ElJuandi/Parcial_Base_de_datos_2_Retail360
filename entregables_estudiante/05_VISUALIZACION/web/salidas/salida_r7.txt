@@ -1,0 +1,26 @@
+﻿Retail 360 - R7 tablero web - 2026-11-11 20:34:40 - equipo PAVAPC
+
+===== sql\08_exportar_analitica.psql =====
+COPY 4316
+COPY 360
+COPY 7583
+COPY 1600
+Exportes completados: revisar carpeta export/ y tamanos de archivo.
+
+===== entregables_estudiante\05_VISUALIZACION\web\exportar_extra.psql =====
+COPY 10019
+COPY 4316
+Exportes extra completados: export/cartera_corte.csv y export/unidades_mensuales.csv
+
+RESULTADO: OK - todos los scripts corrieron sin errores.
+Salida guardada en: C:\Users\migue\Documents\GitHub\Parcial_Base_de_datos_2_Retail360\entregables_estudiante\05_VISUALIZACION\web\salidas\salida_r7.txt
+
+===== generar_tablero.py =====
+ventas_mensuales.csv     filas   4316 (esperado   4316)  total     77065123983.86 (esperado 77065123983.86)
+metas_mensuales.csv      filas    360 (esperado    360)  total    103770000000.00 (esperado 103770000000.00)
+recaudos_mensuales.csv   filas   7583 (esperado   7583)  total     54081947963.55 (esperado 54081947963.55)
+stock_corte.csv          filas   1600 (esperado   1600)  total             122341 (esperado 122341)
+unidades_mensuales.csv   filas   4316 (esperado   4316)  total        90834 - 739 (esperado 90834 - 739)
+cartera_corte.csv        filas  10019 (esperado  10019)  total     37625549579.13 (esperado 37625549579.13)
+Página escrita en C:\Users\migue\Documents\GitHub\Parcial_Base_de_datos_2_Retail360\entregables_estudiante\05_VISUALIZACION\web\tablero_retail360.html (878 KB)
+RESULTADO R7: OK - archivos completos
