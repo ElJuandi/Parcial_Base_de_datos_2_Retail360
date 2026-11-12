@@ -27,27 +27,49 @@ productos en algunas bodegas y no logra cobrar todo lo que factura?
 
 Lo del profesor no se modifica. Nuestro trabajo va todo dentro de `entregables_estudiante/`.
 
-## Cómo vamos
+## Las etapas
 
-Trabajamos por etapas (gates). No pasamos a la siguiente hasta terminar bien la anterior.
+Trabajamos por etapas (gates) y no pasamos a la siguiente hasta terminar bien la anterior.
+Todas están terminadas.
 
-| Etapa | Qué es | Estado |
-|---|---|---|
-| R0 | Preparar el equipo y revisar que todo funcione | Listo |
-| R1 | Base de datos de la operación (OLTP) | Listo |
-| R2 | Modelo para análisis (estrella) | Listo |
-| R3 | Pasar los datos de un modelo al otro (ETL) | Listo |
-| R4 | Consultas SQL y archivos para el tablero | Listo |
-| R5 | Indicadores (KPI) | Listo |
-| R6 | Tablero en Power BI | Listo |
-| R7 | Tablero web hecho con IA | Listo |
-| R8 | Hallazgos y decisiones | Listo |
-| R9 | Informe final y sustentación | Siguiente |
+| Etapa | Qué es | Carpeta | Qué se corre | Estado |
+|---|---|---|---|---|
+| R0 | Preparar el equipo y revisar que todo funcione | `00_ARRANQUE` | `verificar_entorno.bat` | Listo |
+| R1 | Base de datos de la operación | `01_OLTP` | `ejecutar_r1.bat` | Listo |
+| R2 | Modelo para análisis | `02_DWH` | `ejecutar_r2.bat` | Listo |
+| R3 | Pasar los datos al modelo de análisis (ETL) | `03_ETL` | `ejecutar_r3.bat` | Listo |
+| R4 | Consultas SQL y archivos para el tablero | `04_KPI` | `ejecutar_r4.bat` | Listo |
+| R5 | Indicadores (KPI) | `04_KPI` | `ejecutar_r5.bat` | Listo |
+| R6 | Tablero en Power BI | `05_VISUALIZACION` | Abrir `Retail360.pbix` | Listo |
+| R7 | Tablero web hecho con IA | `05_VISUALIZACION/web` | `ejecutar_r7.bat` | Listo |
+| R8 | Hallazgos y decisiones | `06_INTERPRETACION` | `ejecutar_r8.bat` | Listo |
+| R9 | Informe final | `07_INFORME` | Solo leer | Listo |
 
-El detalle de cada etapa está en `entregables_estudiante/PLAN_GATES.md`.
+Todas las carpetas están dentro de `entregables_estudiante/`. Cada una tiene su README con lo
+que hay adentro y el resultado que nos dio.
 
-## Cómo correrlo
+**Para leer primero:** el informe final, en `entregables_estudiante/07_INFORME/informe_final.md`.
 
-Se trabaja con PostgreSQL instalado en el computador. Para revisar que todo esté listo, se da doble
-clic a `entregables_estudiante/00_ARRANQUE/verificar_entorno.bat` y se escribe la contraseña de
-PostgreSQL cuando la pida. El orden de los scripts del profesor está en `README_EJECUCION.txt`.
+Otros archivos útiles:
+
+- `entregables_estudiante/PLAN_GATES.md` - el plan de etapas.
+- `entregables_estudiante/DECISIONES.md` - lo que decidimos en el camino y por qué.
+- `entregables_estudiante/IA/registro_ia.md` - cómo usamos la IA en cada etapa.
+
+## Cómo repetir todo
+
+Se necesita PostgreSQL con una base llamada `retail360`, Python y Power BI Desktop.
+
+1. Clonar el repositorio.
+2. Dar doble clic a cada archivo `.bat` de la tabla, en orden, de R0 a R8. Cada uno pide la
+   contraseña de PostgreSQL y guarda lo que salió en la carpeta `salidas` de su etapa.
+3. Ojo: `ejecutar_r1.bat` borra y vuelve a cargar los datos de la operación. Por eso hay que
+   correr después R2 y R3 otra vez.
+4. Al terminar R7 queda la página `05_VISUALIZACION/web/tablero_retail360.html`. Se abre con
+   doble clic y funciona sin internet.
+5. Para Power BI, abrir `05_VISUALIZACION/Retail360.pbix` y darle Actualizar. Se conecta a
+   `localhost`, base `retail360`.
+
+Si todo salió bien, los números deben ser los mismos que aparecen en el informe.
+
+El orden de los scripts originales del profesor está en `README_EJECUCION.txt`.
