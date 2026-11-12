@@ -30,8 +30,8 @@ inventario.
 ## Medidas
 
 Las 15 medidas (K01 a K15) siguen al pie de la letra `04_KPI/catalogo_kpi.md`. Las creamos
-pegando `powerbi/medidas_y_relaciones.tmdl` en la vista TMDL. Si se pega otra vez, hay que
-copiar desde la línea `createOrReplace`. Algunos detalles:
+pegando `powerbi/medidas_y_relaciones.tmdl` en la vista TMDL. Cuando lo volvimos a pegar
+aprendimos que hay que copiar desde la línea `createOrReplace`. Algunos detalles:
 
 - **K07 y K09 (meta):** quedan vacías si alguien filtra por producto o cliente, porque la meta
   no tiene esos datos (reto C12).

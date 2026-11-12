@@ -12,14 +12,14 @@ referencia; lo escribimos nosotros y al final lo comparamos con el suyo.
 - `pruebas_y_errores.md` - las pruebas, la comparación con el ETL del profesor y qué pasa cuando algo falla.
 - `carga_incremental.md` - cómo haríamos para cargar solo lo nuevo.
 - `consultas_r3.sql` - nuestras revisiones después de cargar, incluidas dos pruebas que dañan algo a propósito.
-- `ejecutar_r3.bat` - corre todo con doble clic.
+- `ejecutar_r3.bat` - el archivo con el que corrimos todo de una vez.
 - `salidas/salida_r3.txt` - lo que salió al correrlo.
 
-## Cómo correrlo
+## Cómo lo corrimos
 
-Primero deben estar hechas R1 y R2. Luego doble clic a `ejecutar_r3.bat` y escribir la
-contraseña de PostgreSQL. Corre en este orden: nuestro ETL, y después los scripts 05b, 06, 09,
-12 y 13 del profesor, y por último nuestras revisiones.
+Después de tener R1 y R2, corrimos `ejecutar_r3.bat` con la contraseña de PostgreSQL. Lo
+armamos para que siguiera este orden: nuestro ETL, después los scripts 05b, 06, 09, 12 y 13
+del profesor y al final nuestras revisiones.
 
 ## Cuándo damos R3 por terminada
 

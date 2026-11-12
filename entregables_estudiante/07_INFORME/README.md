@@ -1,7 +1,7 @@
 # R9 - Informe final
 
-- `informe_final.md` - el informe del trabajo completo: qué hicimos, qué tan confiables son
-  los números, los indicadores, los hallazgos, las decisiones y los límites.
+- `informe_final.md` - nuestro informe del trabajo completo: qué hicimos, qué tan confiables
+  son los números, los indicadores, los hallazgos, las decisiones, los límites y las evidencias.
 
 ## Cuándo damos R9 por terminada
 

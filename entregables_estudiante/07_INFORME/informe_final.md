@@ -120,16 +120,25 @@ El detalle de cada hallazgo, con la consulta que lo respalda, está en
 - **Página web:** no permite ver el recaudo por vendedor, porque el archivo que exporta el
   profesor no trae ese dato. Power BI sí lo permite.
 
-## 8. Cómo usamos la IA
+## 8. Uso de IA
 
-Usamos Claude como apoyo en todas las etapas: para proponer estructuras, revisar ideas, escribir
-borradores de consultas y, en R7, para generar la página web. Nada se dio por bueno sin
-correrlo: cada resultado se comprobó con SQL y con las pruebas del profesor. El registro
-completo, etapa por etapa, está en `IA/registro_ia.md`.
+Como lo pide la guía, declaramos que usamos IA (Claude) como apoyo: para ordenar ideas,
+revisar borradores y, en R7, para generar la página web, que es lo que pide esa etapa. Nada lo
+dimos por bueno sin correrlo y revisarlo nosotros con SQL y con las pruebas del profesor. El
+detalle, etapa por etapa, está en `IA/registro_ia.md`.
 
-## 9. Cómo repetir todo
+## 9. Cómo lo puede repetir otra persona
 
-Cualquier persona con PostgreSQL, Python y Power BI puede llegar a los mismos números
-siguiendo el README principal del repositorio. Son 8 archivos `.bat` que se corren en orden
-con doble clic; cada uno pide la contraseña de PostgreSQL y deja su resultado en una carpeta
-`salidas`.
+Nosotros lo corrimos todo con 8 archivos `.bat`, de R0 a R8, en el computador de Miguel. Cada
+uno pide la contraseña de PostgreSQL y deja lo que salió en la carpeta `salidas` de su etapa.
+Si otra persona sigue el README principal con PostgreSQL, Python y Power BI, debería llegar a
+los mismos números de este informe.
+
+## 10. Evidencias
+
+- Las salidas de cada etapa (`salidas/salida_rX.txt` y `00_ARRANQUE/evidencia_entorno.txt`),
+  con fecha y hora de cuando las corrimos.
+- El acuerdo de indicadores firmado por los 5 (`04_KPI/acuerdo_kpi.md`).
+- El tablero `05_VISUALIZACION/Retail360.pbix` y la página `tablero_retail360.html`.
+- Las comparaciones número por número (`equivalencia_r6.md` y `equivalencia_r7.md`).
+- El historial de commits del repositorio, una etapa tras otra.

@@ -12,11 +12,11 @@ Aquí va el tablero de Power BI (R6) y, en R7, la página web que funciona sin i
 - `powerbi/equivalencia_r6.dax` - la consulta DAX que calcula los 15 indicadores en los dos escenarios.
 - `equivalencia_r6.md` - la comparación con SQL.
 
-### Cómo abrirlo
+### Cómo lo dejamos
 
-Abrir `Retail360.pbix` con Power BI Desktop. Trae los datos guardados, así que se ve sin
-conectarse. Para actualizar los datos (Inicio → Actualizar), Power BI pide la contraseña de
-PostgreSQL del usuario `postgres`. Antes de eso hay que haber corrido R1 a R4.
+El archivo `Retail360.pbix` quedó con los datos guardados, así que se ve aunque no esté
+conectado a la base. Cuando le dimos Actualizar (Inicio → Actualizar), Power BI nos pidió la
+contraseña de PostgreSQL del usuario `postgres`. Para eso ya teníamos corridas R1 a R4.
 
 ### Cuándo damos R6 por terminada
 
@@ -32,20 +32,20 @@ exactamente lo mismo que SQL en los dos escenarios (ver `equivalencia_r6.md`).
 
 ### Archivos
 
-- `web/tablero_retail360.html` - la página. Se abre con doble clic, no necesita internet.
+- `web/tablero_retail360.html` - la página. Abre con doble clic y no necesita internet.
 - `web/plantilla_tablero.html` - el diseño de la página, sin datos.
 - `web/generar_tablero.py` - mete los datos de `export/` dentro de la plantilla y escribe la página.
 - `web/exportar_extra.psql` - saca dos archivos más (`cartera_corte.csv` y `unidades_mensuales.csv`),
   que hacen falta para la cartera y la devolución.
-- `web/ejecutar_r7.bat` - hace todo con doble clic: exporta los CSV y arma la página.
+- `web/ejecutar_r7.bat` - con el que exportamos los CSV y armamos la página de una vez.
 - `web/prompt_ia.md` - qué le pedimos a la IA, el mapeo de indicadores y las decisiones.
 - `equivalencia_r7.md` - la comparación SQL, Power BI y página web.
 - `web/salidas/salida_r7.txt` - lo que salió al correrlo.
 
-### Cómo correrlo
+### Cómo lo corrimos
 
-Doble clic a `web/ejecutar_r7.bat` y escribir la contraseña de PostgreSQL. Al final abrir
-`web/tablero_retail360.html` y mirar la pestaña **Validación**: debe decir 15 de 15 iguales.
+Corrimos `web/ejecutar_r7.bat` con la contraseña de PostgreSQL. Después abrimos
+`web/tablero_retail360.html` y revisamos la pestaña **Validación**: nos dio 15 de 15 iguales.
 
 ### Cuándo damos R7 por terminada
 

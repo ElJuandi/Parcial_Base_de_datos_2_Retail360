@@ -11,15 +11,14 @@ indicadores con sus fórmulas.
 - `retos_explicados.md` - cómo resolvimos cada reto, qué salió y qué significa.
 - `exportes.md` - qué trae cada uno de los 4 CSV y cómo no se deben mezclar.
 - `validar_exportes.sql` - revisa que las vistas exportadas cuadren con el modelo.
-- `ejecutar_r4.bat` - corre todo con doble clic.
+- `ejecutar_r4.bat` - el archivo con el que corrimos todo de una vez.
 - `salidas/salida_r4.txt` - lo que salió al correrlo.
 
 Los 4 CSV quedan en la carpeta `export/` de la raíz.
 
-### Cómo correrlo
+### Cómo lo corrimos
 
-Primero deben estar hechas R1, R2 y R3. Luego doble clic a `ejecutar_r4.bat` y escribir la
-contraseña de PostgreSQL. Corre los scripts 07, 10 y 08 del profesor, después nuestros retos y
+Con R1, R2 y R3 ya hechas, corrimos `ejecutar_r4.bat` con la contraseña de PostgreSQL. Corre los scripts 07, 10 y 08 del profesor, después nuestros retos y
 al final la revisión de los archivos.
 
 ### Cuándo damos R4 por terminada
@@ -50,7 +49,7 @@ Lo corrimos el 4 de noviembre de 2026 en el computador de Miguel, sin errores.
 - `wireframes.md` y la carpeta `wireframes/` - los bocetos de las 4 páginas y por qué elegimos
   cada gráfica.
 - `acuerdo_kpi.md` - donde cada integrante aprueba el catálogo.
-- `ejecutar_r5.bat` - corre las pruebas y los valores oficiales con doble clic.
+- `ejecutar_r5.bat` - con el que corrimos las pruebas y los valores oficiales.
 - `salidas/salida_r5.txt` - lo que salió al correrlo.
 
 ### Cuándo damos R5 por terminada

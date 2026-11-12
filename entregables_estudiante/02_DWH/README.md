@@ -10,7 +10,7 @@ Aquí diseñamos el modelo en constelación: 4 tablas de hechos y 6 dimensiones.
 - `ajustes_dwh_grupo.sql` - las columnas que agregamos al modelo del profesor.
 - `demo_meta_duplicada.sql` - la prueba de por qué la meta no se puede pegar a cada venta.
 - `consultas_r2.sql` - revisa las tablas y relaciones que quedaron creadas.
-- `ejecutar_r2.bat` - corre todo con doble clic.
+- `ejecutar_r2.bat` - el archivo con el que corrimos todo de una vez.
 - `salidas/salida_r2.txt` - lo que salió al correrlo.
 
 ## Cuándo damos R2 por terminada

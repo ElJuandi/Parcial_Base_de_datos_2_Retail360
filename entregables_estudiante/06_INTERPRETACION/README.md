@@ -6,7 +6,7 @@ Aquí está lo que encontramos al mirar los datos y lo que le recomendaríamos a
 
 - `hallazgos.md` - los 5 hallazgos y las 3 decisiones. Cada hallazgo dice de dónde sale.
 - `consultas_r8.sql` - una consulta por hallazgo, para comprobar cada número.
-- `ejecutar_r8.bat` - corre las consultas con doble clic.
+- `ejecutar_r8.bat` - con el que corrimos todas las consultas de una vez.
 - `salidas/salida_r8.txt` - lo que salió al correrlo.
 
 ## Cuándo damos R8 por terminada
