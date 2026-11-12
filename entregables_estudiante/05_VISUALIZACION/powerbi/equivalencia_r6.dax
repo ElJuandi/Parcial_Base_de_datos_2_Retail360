@@ -1,0 +1,24 @@
+// Retail 360 | R6 | Los 15 indicadores en Power BI, escenarios A y B (igual que kpi_referencia.sql)
+// A = todo; B = Sucursal Pereira (sucursal_id 2) y septiembre de 2026. Porcentajes x 100.
+EVALUATE
+SELECTCOLUMNS(
+{
+    ("K01 Ventas netas", ROUND([K01 Ventas netas] * 1, 2), ROUND(CALCULATE([K01 Ventas netas], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 1, 2)),
+    ("K02 Unidades netas", ROUND([K02 Unidades netas] * 1, 2), ROUND(CALCULATE([K02 Unidades netas], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 1, 2)),
+    ("K03 Descuento efectivo %", ROUND([K03 Descuento efectivo %] * 100, 2), ROUND(CALCULATE([K03 Descuento efectivo %], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 100, 2)),
+    ("K04 Tasa de devolucion %", ROUND([K04 Tasa de devolucion %] * 100, 2), ROUND(CALCULATE([K04 Tasa de devolucion %], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 100, 2)),
+    ("K05 Margen bruto", ROUND([K05 Margen bruto] * 1, 2), ROUND(CALCULATE([K05 Margen bruto], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 1, 2)),
+    ("K06 Margen bruto %", ROUND([K06 Margen bruto %] * 100, 2), ROUND(CALCULATE([K06 Margen bruto %], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 100, 2)),
+    ("K07 Meta de ventas", ROUND([K07 Meta de ventas] * 1, 2), ROUND(CALCULATE([K07 Meta de ventas], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 1, 2)),
+    ("K08 Cumplimiento de meta %", ROUND([K08 Cumplimiento de meta %] * 100, 2), ROUND(CALCULATE([K08 Cumplimiento de meta %], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 100, 2)),
+    ("K09 Meses con meta cumplida %", ROUND([K09 Meses con meta cumplida %] * 100, 2), ROUND(CALCULATE([K09 Meses con meta cumplida %], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 100, 2)),
+    ("K10 Existencias al corte", ROUND([K10 Existencias al corte] * 1, 2), ROUND(CALCULATE([K10 Existencias al corte], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 1, 2)),
+    ("K11 Productos agotados en sucursales", ROUND([K11 Productos agotados en sucursales] * 1, 2), ROUND(CALCULATE([K11 Productos agotados en sucursales], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 1, 2)),
+    ("K12 Recaudo", ROUND([K12 Recaudo] * 1, 2), ROUND(CALCULATE([K12 Recaudo], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 1, 2)),
+    ("K13 Saldo de cartera al corte", ROUND([K13 Saldo de cartera al corte] * 1, 2), ROUND(CALCULATE([K13 Saldo de cartera al corte], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 1, 2)),
+    ("K14 Cartera vencida %", ROUND([K14 Cartera vencida %] * 100, 2), ROUND(CALCULATE([K14 Cartera vencida %], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 100, 2)),
+    ("K15 Facturacion con IVA", ROUND([K15 Facturacion con IVA] * 1, 2), ROUND(CALCULATE([K15 Facturacion con IVA], 'dwh dim_sucursal'[sucursal_id] = 2, 'dwh dim_fecha'[anio_mes] = "2026-09") * 1, 2))
+},
+"Indicador", [Value1], "A_todo", [Value2], "B_Pereira_sep2026", [Value3]
+)
+ORDER BY [Indicador]

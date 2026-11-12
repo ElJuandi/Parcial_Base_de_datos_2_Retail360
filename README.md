@@ -38,9 +38,9 @@ Trabajamos por etapas (gates). No pasamos a la siguiente hasta terminar bien la 
 | R2 | Modelo para análisis (estrella) | Listo |
 | R3 | Pasar los datos de un modelo al otro (ETL) | Listo |
 | R4 | Consultas SQL y archivos para el tablero | Listo |
-| R5 | Indicadores (KPI) | Siguiente |
-| R6 | Tablero en Power BI | Pendiente |
-| R7 | Tablero web hecho con IA | Pendiente |
+| R5 | Indicadores (KPI) | Listo |
+| R6 | Tablero en Power BI | Listo |
+| R7 | Tablero web hecho con IA | Siguiente |
 | R8 | Hallazgos y decisiones | Pendiente |
 | R9 | Informe final y sustentación | Pendiente |
 

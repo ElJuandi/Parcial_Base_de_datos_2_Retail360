@@ -1,0 +1,142 @@
+// Retail 360 | R6 | Script que pegamos en la vista TMDL de Power BI (boton Aplicar).
+// Crea las 3 relaciones de la cartera, las 15 medidas del catalogo (K01 a K15)
+// y la columna de antiguedad de la cartera. Las medidas siguen catalogo_kpi.md.
+
+createOrReplace
+
+	relationship cartera_sucursal
+		fromColumn: 'dwh vw_cartera_corte'.sucursal_id
+		toColumn: 'dwh dim_sucursal'.sucursal_id
+
+	relationship cartera_vendedor
+		fromColumn: 'dwh vw_cartera_corte'.vendedor_id
+		toColumn: 'dwh dim_vendedor'.vendedor_id
+
+	relationship cartera_cliente
+		fromColumn: 'dwh vw_cartera_corte'.cliente_id
+		toColumn: 'dwh dim_cliente'.cliente_id
+
+	ref table 'dwh fact_venta'
+
+		measure 'K01 Ventas netas' = SUM('dwh fact_venta'[venta_neta])
+			formatString: #,0.00
+			displayFolder: Comercial
+
+		measure 'K02 Unidades netas' = SUM('dwh fact_venta'[unidades])
+			formatString: #,0
+			displayFolder: Comercial
+
+		measure 'K03 Descuento efectivo %' = DIVIDE(SUM('dwh fact_venta'[descuento]), SUM('dwh fact_venta'[valor_bruto]))
+			formatString: 0.00%
+			displayFolder: Comercial
+
+		measure 'K04 Tasa de devolucion %' = ```
+				VAR devueltas = -CALCULATE(SUM('dwh fact_venta'[unidades]), 'dwh fact_venta'[tipo_evento] = "NOTA_CREDITO")
+				VAR facturadas = CALCULATE(SUM('dwh fact_venta'[unidades]), 'dwh fact_venta'[tipo_evento] = "FACTURA")
+				RETURN DIVIDE(COALESCE(devueltas, 0), facturadas)
+				```
+			formatString: 0.00%
+			displayFolder: Comercial
+
+		measure 'K05 Margen bruto' = SUM('dwh fact_venta'[venta_neta]) - SUM('dwh fact_venta'[costo_venta])
+			formatString: #,0.00
+			displayFolder: Rentabilidad
+
+		measure 'K06 Margen bruto %' = DIVIDE([K05 Margen bruto], [K01 Ventas netas])
+			formatString: 0.00%
+			displayFolder: Rentabilidad
+
+		measure 'K15 Facturacion con IVA' = SUM('dwh fact_venta'[valor_facturado_con_impuesto])
+			formatString: #,0.00
+			displayFolder: Financiera
+
+	ref table 'dwh fact_meta'
+
+		measure 'K07 Meta de ventas' = ```
+				// La meta no tiene producto ni cliente: si filtran por ellos, se deja vacia (reto C12).
+				IF(
+				    ISCROSSFILTERED('dwh dim_producto') || ISCROSSFILTERED('dwh dim_cliente'),
+				    BLANK(),
+				    SUM('dwh fact_meta'[monto_meta])
+				)
+				```
+			formatString: #,0.00
+			displayFolder: Productividad
+
+		measure 'K08 Cumplimiento de meta %' = DIVIDE([K01 Ventas netas], [K07 Meta de ventas])
+			formatString: 0.00%
+			displayFolder: Productividad
+
+		measure 'K09 Meses con meta cumplida %' = ```
+				// Una fila por vendedor + sucursal + mes, con su meta y su venta, sin pegar la meta a las lineas.
+				VAR t =
+				    ADDCOLUMNS(
+				        SUMMARIZE('dwh fact_meta', 'dwh dim_vendedor'[vendedor_key], 'dwh dim_sucursal'[sucursal_key], 'dwh dim_fecha'[anio_mes]),
+				        "@meta", CALCULATE(SUM('dwh fact_meta'[monto_meta])),
+				        "@venta", CALCULATE(SUM('dwh fact_venta'[venta_neta]))
+				    )
+				RETURN
+				    IF(
+				        ISCROSSFILTERED('dwh dim_producto') || ISCROSSFILTERED('dwh dim_cliente'),
+				        BLANK(),
+				        DIVIDE(COUNTROWS(FILTER(t, [@venta] >= [@meta])), COUNTROWS(t))
+				    )
+				```
+			formatString: 0.00%
+			displayFolder: Productividad
+
+	ref table 'dwh fact_movimiento_inventario'
+
+		measure 'K10 Existencias al corte' = ```
+				// Foto al 30/09/2026: se ignora cualquier filtro de fecha.
+				CALCULATE(
+				    SUM('dwh fact_movimiento_inventario'[cantidad_delta]),
+				    REMOVEFILTERS('dwh dim_fecha'),
+				    'dwh dim_fecha'[fecha] <= DATE(2026, 9, 30)
+				)
+				```
+			formatString: #,0
+			displayFolder: Inventario
+
+		measure 'K11 Productos agotados en sucursales' = ```
+				VAR pares =
+				    CROSSJOIN(
+				        CALCULATETABLE(VALUES('dwh dim_bodega'[bodega_key]), 'dwh dim_bodega'[tipo] = "LOCAL"),
+				        VALUES('dwh dim_producto'[producto_key])
+				    )
+				RETURN COUNTROWS(FILTER(pares, [K10 Existencias al corte] <= 0)) + 0
+				```
+			formatString: #,0
+			displayFolder: Inventario
+
+	ref table 'dwh fact_recaudo'
+
+		measure 'K12 Recaudo' = SUM('dwh fact_recaudo'[monto_recaudado])
+			formatString: #,0.00
+			displayFolder: Financiera
+
+	ref table 'dwh vw_cartera_corte'
+
+		measure 'K13 Saldo de cartera al corte' = SUM('dwh vw_cartera_corte'[saldo])
+			formatString: #,0.00
+			displayFolder: Financiera
+
+		measure 'K14 Cartera vencida %' = DIVIDE(SUM('dwh vw_cartera_corte'[cartera_vencida]), [K13 Saldo de cartera al corte])
+			formatString: 0.00%
+			displayFolder: Financiera
+
+	ref table 'dwh vw_cartera_corte'
+
+		column antiguedad = ```
+				SWITCH(
+				    TRUE(),
+				    'dwh vw_cartera_corte'[saldo] <= 0, "Sin saldo",
+				    'dwh vw_cartera_corte'[cartera_vencida] = 0, "0. Aun no vence",
+				    'dwh vw_cartera_corte'[dias_desde_vencimiento] <= 30, "1. 1 a 30 dias",
+				    'dwh vw_cartera_corte'[dias_desde_vencimiento] <= 90, "2. 31 a 90 dias",
+				    'dwh vw_cartera_corte'[dias_desde_vencimiento] <= 180, "3. 91 a 180 dias",
+				    "4. Mas de 180 dias"
+				)
+				```
+			dataType: string
+			summarizeBy: none

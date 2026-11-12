@@ -57,3 +57,9 @@ Lo corrimos el 4 de noviembre de 2026 en el computador de Miguel, sin errores.
 
 - Los casos de prueba dan `CASOS DE PRUEBA OK`.
 - Los 5 integrantes aprueban el catálogo en `acuerdo_kpi.md`. Hasta entonces no se abre Power BI.
+
+### Resultado
+
+Lo corrimos el 4 de noviembre de 2026 en el computador de Miguel, sin errores. Los casos de
+prueba dieron `CASOS DE PRUEBA OK` y los valores oficiales coinciden con los del catálogo.
+Ese mismo día los 5 integrantes revisamos y aprobamos el catálogo (`acuerdo_kpi.md`).
